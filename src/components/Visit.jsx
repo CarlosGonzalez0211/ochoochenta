@@ -29,6 +29,7 @@ export default function Visit() {
         <div className="grid gap-6 lg:grid-cols-2 lg:gap-10">
           <Reveal className="space-y-3">
             <Line icon="pin" label={v.addressLabel} href={MAPS_URL}>{CONTACT.address}</Line>
+            <Line icon="phone" label={v.phoneLabel} href={CONTACT.phoneHref}>{CONTACT.phone}</Line>
             <Line icon="insta" label="Instagram" href={`https://www.instagram.com/${CONTACT.instagram}`}>@{CONTACT.instagram}</Line>
             <Line icon="tiktok" label="TikTok" href={`https://www.tiktok.com/@${CONTACT.tiktok}`}>@{CONTACT.tiktok}</Line>
             <Line icon="fb" label="Facebook" href={`https://www.facebook.com/search/top?q=${encodeURIComponent(CONTACT.facebook)}`}>{CONTACT.facebook}</Line>
@@ -51,7 +52,7 @@ export default function Visit() {
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
               className="h-full min-h-80 w-full border-0 [filter:grayscale(0.4)_contrast(1.05)_brightness(0.9)]"
-              src={`https://www.google.com/maps?q=${encodeURIComponent('Av. Gómez Morín 680, Zaragoza, Ciudad Juárez, Chihuahua 32575')}&output=embed`}
+              src="https://www.google.com/maps?q=31.6543019,-106.3602914&z=17&output=embed"
             />
           </div></Reveal>
         </div>

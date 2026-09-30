@@ -5,9 +5,68 @@ import Hero from './components/Hero'
 import Promos from './components/Promos'
 import Menu from './components/Menu'
 import Gallery from './components/Gallery'
+import Reviews from './components/Reviews'
 import Visit from './components/Visit'
 import OrderModal from './components/OrderModal'
 import { Marquee, OrderButton } from './components/ui'
+
+const SECTION_IDS = ['top', 'menu', 'promos', 'galeria', 'resenas', 'visitanos']
+
+/** Lands at the top (or at #section from the URL), and keeps the URL hash in sync while scrolling. */
+function useHashScroll() {
+  useEffect(() => {
+    if ('scrollRestoration' in history) history.scrollRestoration = 'manual'
+
+    const go = (behavior) => {
+      const id = decodeURIComponent(location.hash.slice(1))
+      const el = id && document.getElementById(id)
+      if (el) el.scrollIntoView({ behavior })
+      else window.scrollTo({ top: 0, behavior })
+    }
+
+    go('instant')
+    // fonts/images settle after first paint and shift the layout; re-align until the visitor scrolls on their own
+    let touched = false
+    const touch = () => { touched = true }
+    const realign = () => { if (!touched) go('instant') }
+    const inputs = ['wheel', 'touchstart', 'keydown', 'pointerdown']
+    inputs.forEach((ev) => window.addEventListener(ev, touch, { once: true, passive: true }))
+    if (document.readyState !== 'complete') window.addEventListener('load', realign, { once: true })
+    document.fonts?.ready.then(realign)
+    // lazy images keep growing the page; follow the layout for a few seconds
+    const ro = new ResizeObserver(realign)
+    ro.observe(document.body)
+    const stop = setTimeout(() => ro.disconnect(), 5000)
+
+    const onHash = () => go('smooth')
+    window.addEventListener('hashchange', onHash)
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          if (!e.isIntersecting) continue
+          const id = e.target.id
+          const url = id === 'top' ? location.pathname + location.search : `#${id}`
+          if (decodeURIComponent(location.hash.slice(1)) !== (id === 'top' ? '' : id)) history.replaceState(null, '', url)
+        }
+      },
+      { rootMargin: '-45% 0px -50% 0px' }
+    )
+    SECTION_IDS.forEach((id) => {
+      const el = document.getElementById(id)
+      if (el) io.observe(el)
+    })
+
+    return () => {
+      window.removeEventListener('load', realign)
+      clearTimeout(stop)
+      ro.disconnect()
+      inputs.forEach((ev) => window.removeEventListener(ev, touch))
+      window.removeEventListener('hashchange', onHash)
+      io.disconnect()
+    }
+  }, [])
+}
 
 function StickyOrder() {
   const [show, setShow] = useState(false)
@@ -41,6 +100,7 @@ function Footer() {
 }
 
 export default function App() {
+  useHashScroll()
   return (
     <I18nProvider>
       <Header />
@@ -50,6 +110,7 @@ export default function App() {
         <Menu />
         <Promos />
         <Gallery />
+        <Reviews />
         <Visit />
       </main>
       <Footer />

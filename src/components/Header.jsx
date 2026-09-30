@@ -37,6 +37,7 @@ export default function Header() {
     ['menu', s.nav.menu],
     ['promos', s.nav.promos],
     ['galeria', s.nav.gallery],
+    ['resenas', s.nav.reviews],
     ['visitanos', s.nav.visit],
   ]
 

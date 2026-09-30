@@ -3,26 +3,41 @@ import { createContext, useContext, useEffect, useMemo, useState } from 'react'
 export const UBER_URL =
   'https://www.ubereats.com/mx-en/store/ocho80/FP6fW0WzVzSU3Hr3OPXAqg?diningMode=DELIVERY&sc=SEARCH_SUGGESTION'
 
-export const MAPS_URL =
-  'https://www.google.com/maps/search/?api=1&query=' +
-  encodeURIComponent('Av. Gómez Morín 680, Zaragoza, Ciudad Juárez, Chihuahua 32575')
+export const MAPS_URL = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent('Ocho 80 Restaurant-Bar')}&query_place_id=ChIJafrQKwBd54YR_Rz1bpTWGHA`
 
 export const CONTACT = {
   instagram: 'ocho80_restaurantbar',
   tiktok: 'ocho__80',
   facebook: 'Ocho 80 Restaurant Bar',
   email: 'laocho80rb@gmail.com',
+  phone: '656 859 0210',
+  phoneHref: 'tel:+526568590210',
   address: 'Av. Gómez Morín #680, Zaragoza, Ciudad Juárez, México, 32575',
 }
 
+// Google Business Profile "Ocho 80 Restaurant-Bar"
+export const GOOGLE = {
+  placeId: 'ChIJafrQKwBd54YR_Rz1bpTWGHA',
+  rating: 4.9,
+  count: 44,
+  // stars -> number of reviews, as listed on the profile
+  breakdown: { 5: 41, 4: 2, 3: 0, 2: 1, 1: 0 },
+}
+GOOGLE.profileUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent('Ocho 80 Restaurant-Bar')}&query_place_id=${GOOGLE.placeId}`
+GOOGLE.writeUrl = `https://search.google.com/local/writereview?placeid=${GOOGLE.placeId}`
+
 const STRINGS = {
   es: {
-    nav: { menu: 'Menú', promos: 'Promociones', gallery: 'Galería', visit: 'Visítanos', order: 'Pedir ahora' },
+    decimal: ',',
+    nav: { menu: 'Menú', promos: 'Promociones', gallery: 'Galería', reviews: 'Reseñas', visit: 'Visítanos', order: 'Pedir ahora' },
     hero: {
       kicker: 'Restaurant · Bar',
       title: 'Sabor mexicano, buen ambiente.',
       sub: 'Desayunos, antojitos, mariscos, parrilladas y tus bebidas favoritas en Ciudad Juárez.',
       cta: 'Ver el menú',
+      reelLabel: 'Video de platillos y bebidas de Ocho 80',
+      play: 'Reproducir video',
+      pause: 'Pausar video',
       open: 'Abierto ahora',
       reviews: 'opiniones',
     },
@@ -57,6 +72,15 @@ const STRINGS = {
       go: 'Continuar a Uber Eats',
       cancel: 'Volver al menú',
     },
+    reviews: {
+      title: 'Reseñas',
+      sub: 'Lo que nuestros clientes dicen en Google.',
+      outOf: 'de 5',
+      count: (n) => `${n} ${n === 1 ? 'reseña' : 'reseñas'} en Google`,
+      seeAll: 'Ver todas en Google',
+      write: 'Escribir una reseña',
+      via: 'Reseñas publicadas en Google',
+    },
     gallery: { title: 'Sabor y ambiente', sub: 'Un vistazo a lo que te espera en la mesa y en la barra.' },
     visit: {
       title: 'Visítanos',
@@ -65,22 +89,27 @@ const STRINGS = {
       contact: 'Contacto',
       social: 'Síguenos',
       emailLabel: 'Correo',
+      phoneLabel: 'Teléfono',
       orderTitle: '¿Prefieres en casa?',
       orderBody: 'Pídenos por Uber Eats y recibe tu comida donde estés.',
     },
     footer: { rights: 'Todos los derechos reservados.' },
     marquee: ['Desayunos', 'Mariscos', 'Parrilladas', 'Litros $88.80', 'Jueves de karaoke', 'Viernes de Ladies Night', 'Antojitos mexicanos'],
-    eyebrow: { menu: 'Sabor de la casa', promos: 'Esta semana', gallery: 'De la cocina y la barra', visit: 'Ciudad Juárez' },
+    eyebrow: { menu: 'Sabor de la casa', promos: 'Esta semana', gallery: 'De la cocina y la barra', reviews: 'Lo que dicen', visit: 'Ciudad Juárez' },
     langLabel: 'Idioma',
     close: 'Cerrar',
   },
   en: {
-    nav: { menu: 'Menu', promos: 'Specials', gallery: 'Gallery', visit: 'Visit', order: 'Order now' },
+    decimal: '.',
+    nav: { menu: 'Menu', promos: 'Specials', gallery: 'Gallery', reviews: 'Reviews', visit: 'Visit', order: 'Order now' },
     hero: {
       kicker: 'Restaurant · Bar',
       title: 'Mexican flavor, great vibes.',
       sub: 'Breakfast, traditional plates, seafood, grill platters and your favorite drinks in Ciudad Juárez.',
       cta: 'See the menu',
+      reelLabel: 'Video of Ocho 80 dishes and drinks',
+      play: 'Play video',
+      pause: 'Pause video',
       open: 'Open now',
       reviews: 'reviews',
     },
@@ -114,6 +143,15 @@ const STRINGS = {
       go: 'Continue to Uber Eats',
       cancel: 'Back to menu',
     },
+    reviews: {
+      title: 'Reviews',
+      sub: 'What our guests say on Google.',
+      outOf: 'out of 5',
+      count: (n) => `${n} Google ${n === 1 ? 'review' : 'reviews'}`,
+      seeAll: 'See all on Google',
+      write: 'Write a review',
+      via: 'Reviews posted on Google (shown in the original Spanish)',
+    },
     gallery: { title: 'Flavor & atmosphere', sub: 'A peek at what is waiting for you at the table and the bar.' },
     visit: {
       title: 'Visit us',
@@ -122,12 +160,13 @@ const STRINGS = {
       contact: 'Contact',
       social: 'Follow us',
       emailLabel: 'Email',
+      phoneLabel: 'Phone',
       orderTitle: 'Rather stay in?',
       orderBody: 'Order through Uber Eats and get your food wherever you are.',
     },
     footer: { rights: 'All rights reserved.' },
     marquee: ['Breakfast', 'Seafood', 'Grill platters', 'Liters $88.80', 'Karaoke Thursday', 'Ladies Night Friday', 'Mexican classics'],
-    eyebrow: { menu: 'House flavors', promos: 'This week', gallery: 'From the kitchen & the bar', visit: 'Ciudad Juárez' },
+    eyebrow: { menu: 'House flavors', promos: 'This week', gallery: 'From the kitchen & the bar', reviews: 'What people say', visit: 'Ciudad Juárez' },
     langLabel: 'Language',
     close: 'Close',
   },

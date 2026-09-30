@@ -99,10 +99,12 @@ export default function Menu() {
     }
   }
 
-  // keep the active tab visible in the horizontal scroller
+  // keep the active tab centered in the horizontal strip (only the strip scrolls, never the page)
   useEffect(() => {
-    const el = tabsRef.current?.querySelector('[aria-selected="true"]')
-    el?.scrollIntoView({ inline: 'center', block: 'nearest', behavior: 'smooth' })
+    const box = tabsRef.current
+    const el = box?.querySelector('[aria-selected="true"]')
+    if (!box || !el) return
+    box.scrollTo({ left: el.offsetLeft - (box.clientWidth - el.offsetWidth) / 2, behavior: 'smooth' })
   }, [tab])
 
   return (

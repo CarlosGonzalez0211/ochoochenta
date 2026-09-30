@@ -29,6 +29,12 @@ export function Icon({ name, className = 'w-5 h-5' }) {
           <circle cx="12" cy="9.5" r="2.5" />
         </svg>
       )
+    case 'phone':
+      return (
+        <svg {...p}>
+          <path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2Z" />
+        </svg>
+      )
     case 'mail':
       return (
         <svg {...p}>
@@ -95,6 +101,12 @@ export function Icon({ name, className = 'w-5 h-5' }) {
       return (
         <svg {...p}>
           <path d="M7 17 17 7M8 7h9v9" />
+        </svg>
+      )
+    case 'star':
+      return (
+        <svg className={className} viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+          <path d="m12 2.6 2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4l-5.9 3.2 1.2-6.5L2.5 9.5l6.6-.9L12 2.6Z" />
         </svg>
       )
     case 'x':
