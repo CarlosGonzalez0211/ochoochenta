@@ -1,0 +1,90 @@
+[
+  {
+    "id": "2026-11-14-mexico-jamaica-nations-league-ida",
+    "sport": "soccer", "league": "Concacaf Nations League · Cuartos (ida)",
+    "title": { "es": "Jamaica vs. México", "en": "Jamaica vs. Mexico" },
+    "kickoff": "2026-11-14T19:00:00-06:00", "channel": "", "featured": true, "promoId": "soccer",
+    "source": "https://www.clarosports.com/futbol/fecha-fifa-de-noviembre-2026-los-partidos-y-figuras-que-protagonizaran-el-cierre-del-ano/",
+    "notes": "19:00 as published for Mexico (UTC-6) = 18:00 Juárez. Channel not found. Not a friendly: Nations League QF."
+  },
+  {
+    "id": "2026-11-17-mexico-jamaica-nations-league-vuelta",
+    "sport": "soccer", "league": "Concacaf Nations League · Cuartos (vuelta)",
+    "title": { "es": "México vs. Jamaica", "en": "Mexico vs. Jamaica" },
+    "kickoff": "2026-11-17T20:30:00-06:00", "channel": "", "featured": true, "promoId": "soccer",
+    "source": "https://www.clarosports.com/futbol/fecha-fifa-de-noviembre-2026-los-partidos-y-figuras-que-protagonizaran-el-cierre-del-ano/",
+    "notes": "Time per ClaroSports table only; stadium and channel unconfirmed."
+  },
+  {
+    "id": "2026-11-20-liga-mx-juarez-atlas-j17",
+    "sport": "soccer", "league": "Liga MX · Jornada 17",
+    "title": { "es": "FC Juárez vs. Atlas", "en": "FC Juárez vs. Atlas" },
+    "kickoff": "2026-11-20T21:00:00-06:00", "channel": "", "featured": true, "promoId": "soccer",
+    "source": "https://www.telediario.mx/futbol/liga-mx/fc-juarez-vs-atlas-j17-liga-mx-2026-cuando-es-y-donde-ver",
+    "notes": "CONFLICT: Mediotiempo lists Nov 21 17:00 instead. Juárez already eliminated from the liguilla; still a home game at Estadio Olímpico Benito Juárez."
+  },
+  {
+    "id": "2026-11-14-ufc-334-gane-hokit",
+    "sport": "mma", "league": "UFC 334",
+    "title": { "es": "UFC 334: Gane vs. Hokit", "en": "UFC 334: Gane vs. Hokit" },
+    "kickoff": "2026-11-14T21:00:00-05:00", "channel": "Paramount+", "featured": false, "promoId": "mma",
+    "source": "https://www.paramountplus.com/sneak-peak/ufc-schedule-2026/",
+    "notes": "21:00 ET is the MAIN CARD start (20:00 Juárez). Sources disagree on PPV vs Paramount+. Check Mexican availability (likely different provider)."
+  },
+  {
+    "id": "2026-11-21-ufc-fight-night-prochazka-stirling",
+    "sport": "mma", "league": "UFC Fight Night",
+    "title": { "es": "UFC Fight Night: Procházka vs. Stirling", "en": "UFC Fight Night: Procházka vs. Stirling" },
+    "kickoff": "2026-11-21T17:00:00-05:00", "channel": "Paramount+", "featured": false, "promoId": "mma",
+    "source": "https://www.paramountplus.com/sneak-peak/ufc-schedule-2026/",
+    "notes": "Doha card; start times differ across sources."
+  },
+  {
+    "id": "2026-12-12-ufc-335-oliveira-lopes",
+    "sport": "mma", "league": "UFC 335",
+    "title": { "es": "UFC 335: Oliveira vs. Lopes", "en": "UFC 335: Oliveira vs. Lopes" },
+    "kickoff": "2026-12-12T21:00:00-05:00", "channel": "", "featured": true, "promoId": "mma",
+    "source": "https://www.cbssports.com/ufc/news/2026-ufc-event-schedule-natalia-silva-wang-cong-ciryl-gane-josh-hokit/",
+    "notes": "Main card 21:00 ET (19:00 Juárez). Also Pereira vs. Pavlovich listed."
+  },
+  {
+    "id": "2026-11-26-nfl-bears-lions-thanksgiving",
+    "sport": "football", "league": "NFL · Thanksgiving",
+    "title": { "es": "Bears vs. Lions", "en": "Bears at Lions" },
+    "kickoff": "2026-11-26T13:00:00-05:00", "channel": "CBS / Paramount+", "featured": false, "promoId": "football",
+    "source": "https://www.foxsports.com/stories/nfl/2026-nfl-thanksgiving-games-schedule-teams-how-watch",
+    "notes": "US channels; Mexican broadcast (ESPN/Fox/Sky etc.) unconfirmed."
+  },
+  {
+    "id": "2026-11-26-nfl-eagles-cowboys-thanksgiving",
+    "sport": "football", "league": "NFL · Thanksgiving",
+    "title": { "es": "Eagles vs. Cowboys", "en": "Eagles at Cowboys" },
+    "kickoff": "2026-11-26T16:30:00-05:00", "channel": "Fox", "featured": true, "promoId": "football",
+    "source": "https://www.foxsports.com/stories/nfl/2026-nfl-thanksgiving-games-schedule-teams-how-watch",
+    "notes": "Cowboys games are the biggest NFL draw in Juárez."
+  },
+  {
+    "id": "2026-11-26-nfl-chiefs-bills-thanksgiving",
+    "sport": "football", "league": "NFL · Thanksgiving",
+    "title": { "es": "Chiefs vs. Bills", "en": "Chiefs at Bills" },
+    "kickoff": "2026-11-26T20:20:00-05:00", "channel": "NBC / Peacock", "featured": false, "promoId": "football",
+    "source": "https://www.foxsports.com/stories/nfl/2026-nfl-thanksgiving-games-schedule-teams-how-watch",
+    "notes": ""
+  },
+  {
+    "id": "2026-11-29-nfl-patriots-chargers-snf",
+    "sport": "football", "league": "NFL · Sunday Night",
+    "title": { "es": "Patriots vs. Chargers", "en": "Patriots at Chargers" },
+    "kickoff": "2026-11-29T20:20:00-05:00", "channel": "NBC", "featured": false, "promoId": "football",
+    "source": "https://www.cbssports.com/nfl/news/2026-nfl-schedule-dates-times/",
+    "notes": ""
+  },
+  {
+    "id": "2026-11-30-nfl-panthers-buccaneers-mnf",
+    "sport": "football", "league": "NFL · Monday Night",
+    "title": { "es": "Panthers vs. Buccaneers", "en": "Panthers at Buccaneers" },
+    "kickoff": "2026-11-30T20:15:00-05:00", "channel": "ESPN", "featured": false, "promoId": "football",
+    "source": "https://www.cbssports.com/nfl/news/2026-nfl-schedule-dates-times/",
+    "notes": ""
+  }
+]
