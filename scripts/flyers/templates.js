@@ -1,181 +1,249 @@
-// HTML templates for Ocho 80 flyers. Pure functions: (data, options) -> full HTML string.
-// Brand tokens mirror src/index.css (@theme). Keep them in sync if the site palette changes.
-import { pathToFileURL } from 'node:url'
-import { fileURLToPath } from 'node:url'
+// HTML templates for Ocho 80 flyers. Pure functions: (data) -> full HTML string, rendered by scripts/build-flyers.js.
+//
+// Design system (keep it tight):
+//   Fonts:  Rye (brand display, matches the logo) for names + "VS" only; Chakra Petch for everything else.
+//   Color:  each side of a matchup takes its team's colors; Ocho 80 owns the frame — ink black, ember red, brass, bone.
+//   Brand:  logo top-center, brass frame, ember seam, footer strip. The teams are the hero; Ocho 80 is the host.
+import { existsSync, readdirSync } from 'node:fs'
+import { fileURLToPath, pathToFileURL } from 'node:url'
 import { CONTACT } from '../../src/data/contact.js'
 import { VENUE_TZ } from '../../src/data/events/schema.js'
 
-const root = (p) => pathToFileURL(fileURLToPath(new URL(`../../${p}`, import.meta.url))).href
-const font = (pkg, file) => root(`node_modules/@fontsource/${pkg}/files/${file}`)
+const abs = (p) => fileURLToPath(new URL(`../../${p}`, import.meta.url))
+const url = (p) => pathToFileURL(abs(p)).href
+const font = (pkg, file) => url(`node_modules/@fontsource/${pkg}/files/${file}`)
 
 export const SIZES = { feed: { w: 1080, h: 1350 }, story: { w: 1080, h: 1920 } }
 
-const SCRIPT_LINE = {
-  soccer: { es: 'ven con tu banda', en: 'bring your crew' },
-  football: { es: 'game day', en: 'game day' },
-  boxing: { es: 'noche de pelea', en: 'fight night' },
-  mma: { es: 'noche de peleas', en: 'fight night' },
-  baseball: { es: 'play ball', en: 'play ball' },
-  basketball: { es: 'a la cancha', en: 'game on' },
-  other: { es: 'en pantalla gigante', en: 'on the big screen' },
-}
-const SPORT_LABEL = {
-  soccer: 'Fútbol', football: 'Fútbol americano', boxing: 'Box', mma: 'MMA', baseball: 'Béisbol', basketball: 'Basquetbol', other: 'Deportes',
-}
-
 const esc = (s = '') => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]))
 
-export function fmtDay(iso, opts = { weekday: 'long', day: 'numeric', month: 'long' }) {
-  return new Intl.DateTimeFormat('es-MX', { ...opts, timeZone: VENUE_TZ }).format(new Date(iso))
+// ---------- dates (always Juárez time) ----------
+const parts = (iso, o) => Object.fromEntries(new Intl.DateTimeFormat('es-MX', { ...o, timeZone: VENUE_TZ }).formatToParts(new Date(iso)).map((x) => [x.type, x.value]))
+export const fmtWeekday = (iso) => parts(iso, { weekday: 'long' }).weekday
+export const fmtDate = (iso) => { const p = parts(iso, { day: 'numeric', month: 'long' }); return `${p.day} de ${p.month}` }
+export const fmtShortDay = (iso) => { const p = parts(iso, { weekday: 'short', day: 'numeric', month: 'short' }); return `${p.weekday} ${p.day} ${p.month}`.replace(/\./g, '') }
+export const fmtTime = (iso) => new Intl.DateTimeFormat('en-US', { hour: 'numeric', minute: '2-digit', hour12: true, timeZone: VENUE_TZ }).format(new Date(iso))
+
+// ---------- assets ----------
+const ASSET_DIRS = ['flyers/assets/custom', 'flyers/assets/cache']
+function findAsset(base) {
+  for (const d of ASSET_DIRS) {
+    if (!existsSync(abs(d))) continue
+    const f = readdirSync(abs(d)).find((n) => n.replace(/\.[^.]+$/, '') === base)
+    if (f) return url(`${d}/${f}`)
+  }
+  return null
 }
-export function fmtTime(iso) {
-  // "7:00 p.m." style, Juárez time
-  return new Intl.DateTimeFormat('es-MX', { hour: 'numeric', minute: '2-digit', hour12: true, timeZone: VENUE_TZ })
-    .format(new Date(iso)).replace(/\s?([ap])\.?\s?m\.?/i, (_, m) => ` ${m.toUpperCase()}.M.`)
+/** Resolves what to draw for a participant: cutout (fighters), logo (teams), flag (countries / fighter badge). */
+export function visual(p) {
+  if (!p) return {}
+  return {
+    cut: p.kind === 'fighter' ? findAsset(`${p.slug}-cut`) : null,
+    logo: p.kind === 'team' ? findAsset(p.slug) : null,
+    flag: p.flag ? findAsset(`flag-${p.flag}`) : null,
+  }
 }
 
-/** Compact "SÁB 14 NOV" for list rows. */
-export function fmtShortDay(iso) {
-  const p = Object.fromEntries(new Intl.DateTimeFormat('es-MX', { weekday: 'short', day: 'numeric', month: 'short', timeZone: VENUE_TZ }).formatToParts(new Date(iso)).map((x) => [x.type, x.value]))
-  return `${p.weekday} ${p.day} ${p.month}`.replace(/\./g, '')
-}
-/** Compact "6:00 PM". */
-export function fmtShortTime(iso) {
-  return new Intl.DateTimeFormat('en-US', { hour: 'numeric', minute: '2-digit', hour12: true, timeZone: VENUE_TZ }).format(new Date(iso))
-}
-
-const BASE_CSS = ({ w, h }) => `
+// ---------- shared css ----------
+const CSS = ({ w, h }) => `
 @font-face{font-family:Rye;src:url(${font('rye', 'rye-latin-400-normal.woff2')})}
-@font-face{font-family:Kaushan;src:url(${font('kaushan-script', 'kaushan-script-latin-400-normal.woff2')})}
 @font-face{font-family:Chakra;font-weight:600;src:url(${font('chakra-petch', 'chakra-petch-latin-600-normal.woff2')})}
 @font-face{font-family:Chakra;font-weight:700;src:url(${font('chakra-petch', 'chakra-petch-latin-700-normal.woff2')})}
-@font-face{font-family:Poppins;font-weight:400;src:url(${font('poppins', 'poppins-latin-400-normal.woff2')})}
-@font-face{font-family:Poppins;font-weight:600;src:url(${font('poppins', 'poppins-latin-600-normal.woff2')})}
-:root{--ink:#0a0706;--char:#151010;--ember:#d3141c;--ember-hot:#f0262e;--ember-deep:#8f0e14;--bone:#efe6d4;--bone-dim:#b9ad98;--brass:#d9a24a}
+:root{--ink:#0a0706;--ember:#d3141c;--ember-hot:#f0262e;--bone:#efe6d4;--bone-dim:#b9ad98;--brass:#d9a24a}
 *{box-sizing:border-box;margin:0;padding:0}
-html,body{width:${w}px;height:${h}px;background:var(--ink);color:var(--bone);font-family:Poppins,sans-serif;overflow:hidden}
-.flyer{position:relative;width:${w}px;height:${h}px;display:flex;flex-direction:column;align-items:center;padding:${h > 1500 ? 120 : 64}px 72px ${h > 1500 ? 110 : 56}px;isolation:isolate;text-align:center}
-.bg{position:absolute;inset:0;z-index:-2;background:#1a0e08 url(${root('public/img/wood-wall.webp')}) center/900px}
-.bg::after{content:"";position:absolute;inset:0;background:
-  radial-gradient(70% 45% at 50% 38%,rgba(211,20,28,.38),transparent 70%),
-  radial-gradient(120% 80% at 50% 0%,rgba(255,170,90,.14),transparent 55%),
-  linear-gradient(180deg,rgba(10,6,4,.55) 0%,rgba(10,6,4,.82) 55%,rgba(10,6,4,.95) 100%)}
-.frame{position:absolute;inset:26px;z-index:-1;border:2px solid rgba(217,162,74,.55);border-radius:36px;box-shadow:inset 0 0 0 8px rgba(10,7,6,.55),inset 0 0 0 9px rgba(239,230,212,.12)}
-.logo{height:${h > 1500 ? 200 : 150}px;width:auto}
-.chip{display:inline-flex;align-items:center;gap:12px;background:var(--ember);color:#fff;font:700 26px Chakra;letter-spacing:.2em;text-transform:uppercase;padding:8px 26px;border-radius:999px}
-.league{font:600 28px Chakra;letter-spacing:.2em;text-transform:uppercase;color:var(--bone-dim)}
-.display{font-family:Rye,Georgia,serif;text-transform:uppercase;line-height:1.02;color:var(--bone);text-shadow:0 4px 30px rgba(0,0,0,.85)}
-.script{font-family:Kaushan,cursive;color:var(--ember-hot);text-shadow:0 3px 18px rgba(0,0,0,.8)}
-.tech{font-family:Chakra,sans-serif;text-transform:uppercase}
-.brass{color:var(--brass)}
-.ribbon{background:var(--ember);color:#fff;font:700 34px Chakra;letter-spacing:.14em;text-transform:uppercase;padding:14px 64px 14px 40px;clip-path:polygon(0 0,100% 0,95% 50%,100% 100%,0 100%)}
-.footer{margin-top:auto;width:100%;border-top:1px solid rgba(239,230,212,.2);padding-top:26px;font-size:25px;color:var(--bone-dim);line-height:1.5}
-.footer b{color:var(--bone);font-weight:600}
-.footer .row{display:flex;justify-content:center;gap:34px;flex-wrap:wrap}
-.star{width:.9em;height:.9em;vertical-align:-.1em;fill:currentColor}
+html,body{width:${w}px;height:${h}px;background:var(--ink);color:var(--bone);font-family:Chakra,sans-serif;font-weight:600;overflow:hidden}
+.flyer{position:relative;width:${w}px;height:${h}px;overflow:hidden;isolation:isolate}
+.layer{position:absolute;inset:0}
+.wood{background:url(${url('public/img/wood-wall.webp')}) center/900px;mix-blend-mode:overlay;opacity:.35;z-index:3;pointer-events:none}
+.vignette{z-index:4;background:radial-gradient(120% 75% at 50% 45%,transparent 40%,rgba(5,3,2,.85) 100%),linear-gradient(180deg,rgba(5,3,2,.55),transparent 22%,transparent 55%,rgba(5,3,2,.97) 82%)}
+.frame{position:absolute;inset:22px;z-index:20;border:3px solid var(--brass);border-radius:30px;box-shadow:inset 0 0 0 7px rgba(10,7,6,.6),inset 0 0 0 8px rgba(239,230,212,.18);pointer-events:none}
+.top{position:absolute;z-index:10;top:52px;left:0;right:0;display:flex;flex-direction:column;align-items:center;gap:14px}
+.logo{height:118px;filter:drop-shadow(0 6px 20px rgba(0,0,0,.9))}
+.label{font-weight:700;font-size:25px;letter-spacing:.32em;text-transform:uppercase;color:var(--bone);text-shadow:0 2px 10px #000}
+.label .dot{color:var(--brass);margin:0 .5em}
+.tag{display:inline-flex;align-items:center;gap:10px;background:var(--ember);color:#fff;font-weight:700;font-size:21px;letter-spacing:.24em;padding:7px 20px;border-radius:999px;text-transform:uppercase;box-shadow:0 6px 20px rgba(0,0,0,.6)}
+.star{width:.95em;height:.95em;fill:currentColor}
+.rye{font-family:Rye,Georgia,serif;font-weight:400;text-transform:uppercase}
+.footer{position:absolute;z-index:10;left:50px;right:50px;bottom:50px;display:flex;justify-content:center;gap:22px;font-weight:600;font-size:18px;letter-spacing:.12em;color:var(--bone-dim);text-transform:uppercase;white-space:nowrap}
+.footer b{color:var(--bone);font-weight:700}
+.ribbon{background:var(--ember);color:#fff;font-weight:700;font-size:28px;letter-spacing:.14em;text-transform:uppercase;padding:12px 56px 12px 34px;clip-path:polygon(0 0,100% 0,95% 50%,100% 100%,0 100%)}
 `
-
 const STAR = '<svg class="star" viewBox="0 0 24 24"><path d="m12 2.6 2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4l-5.9 3.2 1.2-6.5L2.5 9.5l6.6-.9L12 2.6Z"/></svg>'
+const LOGO = () => `<img class="logo" src="${url('public/img/logo.png')}" alt="Ocho 80">`
+const FOOTER = () => `<div class="footer"><span><b>Ocho 80</b> · Av. Gómez Morín #680</span><span>${esc(CONTACT.phone)}</span><span>@${esc(CONTACT.instagram)}</span></div>`
+const page = (size, css, body) => `<!doctype html><html lang="es"><head><meta charset="utf-8"><style>${CSS(SIZES[size])}${css}</style></head><body><div class="flyer">${body}<div class="frame"></div></div></body></html>`
 
-const footerHtml = () => `
-<div class="footer">
-  <div class="row"><span><b>${esc(CONTACT.phone)}</b></span><span><b>@${esc(CONTACT.instagram)}</b></span></div>
-  <div>${esc(CONTACT.address)}</div>
-</div>`
+const initials = (p) => (p?.short ?? '?').slice(0, 2)
 
-const wrap = (size, css, body) => `<!doctype html><html lang="es"><head><meta charset="utf-8"><style>${BASE_CSS(SIZES[size])}${css}</style></head>
-<body><div class="flyer"><div class="bg"></div><div class="frame"></div>
-<img class="logo" src="${root('public/img/logo.png')}" alt="Ocho 80">${body}${footerHtml()}</div></body></html>`
-
-/** Scale the headline down for long titles so it always fits. */
-function titleSize(text, story) {
-  const n = text.length
-  const base = story ? 1.12 : 1
-  if (n <= 14) return Math.round(150 * base)
-  if (n <= 24) return Math.round(118 * base)
-  if (n <= 36) return Math.round(92 * base)
-  return Math.round(74 * base)
-}
-
-/** Split "A vs. B" into two lines; keeps "vs." small and red. */
-function titleHtml(title) {
-  title = title.replace(/^[^:]{2,30}:\s+(?=.*\s(vs\.?|at)\s)/i, '') // "UFC 335: A vs. B" -> "A vs. B" (the league line already says UFC 335)
-  const m = title.match(/^(.*?)\s+(vs\.?|at)\s+(.*)$/i)
-  if (!m) return esc(title)
-  return `${esc(m[1])}<br><span class="script" style="font-size:.5em;text-transform:none">${esc(m[2].toLowerCase())}</span><br>${esc(m[3])}`
-}
-
-export function eventFlyer(event, promoText, size = 'feed') {
+// ---------- VS event flyer ----------
+/**
+ * @param event   events.json entry (with matchup resolved: event.sides = [participantA, participantB], each with .slug)
+ * @param promo   approved promo text (es) or null
+ */
+export function eventFlyer(event, promo, size = 'feed') {
   const story = size === 'story'
-  const title = event.title.es
-  const fs = titleSize(title.replace(/^[^:]{2,30}:\s+(?=.*\s(vs\.?|at)\s)/i, '').replace(/\s+(vs\.?|at)\s+/i, ' '), story)
-  const line = SCRIPT_LINE[event.sport] ?? SCRIPT_LINE.other
-  const en = event.title.en !== event.title.es ? event.title.en : ''
+  const { w, h } = SIZES[size]
+  const [A, B] = event.sides ?? []
+  if (!A || !B) return titleFlyer(event, promo, size)
+  const va = visual(A), vb = visual(B)
+  const fighters = A.kind === 'fighter' || B.kind === 'fighter'
+
+  // geometry
+  const seamTop = 56, seamBottom = 44 // % of width where the diagonal crosses top/bottom
+  const midY = story ? 0.46 : 0.47
+  const markSize = story ? 350 : 320
+  const vsSize = story ? 210 : 190
+
+  const sideBg = (p, v, side) => {
+    const [c1, c2] = p.colors ?? ['#333', '#111']
+    const poly = side === 'L' ? `0 0,${seamTop}% 0,${seamBottom}% 100%,0 100%` : `${seamTop}% 0,100% 0,100% 100%,${seamBottom}% 100%`
+    const big = v.flag && p.kind === 'country'
+      ? `<img class="flagfill" src="${v.flag}" alt="">`
+      : v.logo ? `<img class="ghost ghost-${side}" src="${v.logo}" alt="">`
+      : v.flag ? `<img class="flagfill flagsoft" src="${v.flag}" alt="">` : ''
+    return `<div class="side" style="clip-path:polygon(${poly});background:linear-gradient(${side === 'L' ? '135deg' : '225deg'},${c1} 0%,${c1} 35%,${c2} 140%)">${big}<div class="shade-${side}"></div></div>`
+  }
+
+  const hero = (p, v, side) => {
+    if (v.cut) return `<img class="cut cut-${side}" src="${v.cut}" alt="">`
+    if (v.logo) return `<div class="mark mark-${side}"><img src="${v.logo}" alt=""></div>`
+    if (v.flag && p.kind === 'country') return `<div class="mark mark-${side}"><div class="flagdisc" style="background-image:url('${v.flag}')"></div></div>`
+    return `<div class="mark mark-${side}"><div class="mono rye" style="background:${p.colors?.[0] ?? '#333'}">${esc(initials(p))}</div></div>`
+  }
+
+  const name = (p, v, side) => `<div class="name name-${side}">
+    ${v.flag && p.kind === 'fighter' ? `<img class="badge" src="${v.flag}" alt="">` : ''}
+    <span class="rye nm">${esc(p.short ?? p.name.es)}</span></div>`
+
+  const cx = (side) => (side === 'L' ? 0.22 : 0.78) * w
+  const cy = midY * h
+  const nameY = cy + markSize / 2 + (story ? 70 : 30)
+  const infoTop = story ? 1430 : 990
+  const cutH = story ? 1000 : 690
+
   const css = `
-.top{margin-top:${story ? 70 : 34}px;display:flex;flex-direction:column;align-items:center;gap:14px}
-.hero{margin-top:${story ? 90 : 34}px;font-size:${fs}px}
-.en{margin-top:14px;font:400 26px Poppins;color:var(--bone-dim)}
-.script-line{margin-top:${story ? 34 : 14}px;font-size:${story ? 84 : 70}px}
-.when{margin-top:${story ? 80 : 36}px;display:flex;flex-direction:column;align-items:center;gap:6px}
-.day{font:700 40px Chakra;letter-spacing:.2em;color:var(--bone)}
-.time{font:700 ${story ? 150 : 124}px Chakra;line-height:1;color:var(--brass);text-shadow:0 4px 24px rgba(0,0,0,.7)}
-.chan{margin-top:12px;font:600 28px Chakra;letter-spacing:.18em;border:2px solid rgba(239,230,212,.4);border-radius:12px;padding:8px 24px}
-.promo{margin-top:${story ? 70 : 34}px}`
+.side{position:absolute;inset:0;z-index:0;overflow:hidden}
+.flagfill{position:absolute;inset:-6%;width:112%;height:112%;object-fit:cover;opacity:.55;filter:saturate(1.15)}
+.flagsoft{opacity:.25}
+.ghost{position:absolute;top:${story ? 18 : 10}%;width:${story ? 900 : 780}px;height:${story ? 900 : 780}px;object-fit:contain;opacity:.16;filter:grayscale(.2) brightness(1.4)}
+.ghost-L{left:-${story ? 330 : 300}px;transform:rotate(-12deg)}
+.ghost-R{right:-${story ? 330 : 300}px;transform:rotate(12deg)}
+.shade-L,.shade-R{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.25),rgba(0,0,0,.05) 40%,rgba(0,0,0,.55))}
+.seam{position:absolute;inset:0;z-index:2;background:linear-gradient(90deg,transparent calc(50% - 5px),var(--ember) calc(50% - 5px),var(--ember-hot) 50%,var(--ember) calc(50% + 5px),transparent calc(50% + 5px));transform:skewX(${Math.atan(((seamTop - seamBottom) / 100 * w) / h) * -180 / Math.PI}deg);box-shadow:0 0 40px var(--ember);filter:drop-shadow(0 0 18px rgba(240,38,46,.8))}
+.mark{position:absolute;z-index:6;width:${markSize}px;height:${markSize}px;display:grid;place-items:center;transform:translate(-50%,-50%)}
+.mark img{max-width:100%;max-height:100%;object-fit:contain;filter:drop-shadow(0 18px 30px rgba(0,0,0,.75)) drop-shadow(0 0 2px rgba(255,255,255,.25))}
+.mark-L{left:${cx('L')}px;top:${cy}px}.mark-R{left:${cx('R')}px;top:${cy}px}
+.flagdisc{width:86%;height:86%;border-radius:50%;background-size:cover;background-position:center;border:8px solid var(--bone);box-shadow:0 18px 40px rgba(0,0,0,.75),inset 0 0 0 2px rgba(0,0,0,.2)}
+.mono{width:86%;height:86%;border-radius:50%;display:grid;place-items:center;font-size:${markSize * 0.42}px;color:var(--bone);border:8px solid var(--bone);box-shadow:0 18px 40px rgba(0,0,0,.75)}
+.cut{position:absolute;z-index:5;height:${cutH}px;bottom:${h - infoTop + 30}px;filter:drop-shadow(0 20px 40px rgba(0,0,0,.8));-webkit-mask-composite:source-in;mask-composite:intersect}
+.cut-L{-webkit-mask-image:linear-gradient(180deg,#000 72%,transparent 98%),linear-gradient(270deg,transparent 0%,#000 22%);left:${story ? -40 : -30}px;max-width:${w * 0.62}px;object-fit:contain;object-position:bottom left}
+.cut-R{-webkit-mask-image:linear-gradient(180deg,#000 72%,transparent 98%),linear-gradient(90deg,transparent 0%,#000 22%);right:${story ? -40 : -30}px;max-width:${w * 0.62}px;object-fit:contain;object-position:bottom right}
+.vs{position:absolute;z-index:8;left:50%;top:${fighters ? (story ? 0.36 : 0.40) * h : cy}px;transform:translate(-50%,-50%);font-size:${vsSize}px;line-height:1;color:var(--bone);
+  text-shadow:0 0 0 #000,6px 6px 0 var(--ember),0 0 60px rgba(240,38,46,.75),0 10px 40px rgba(0,0,0,.9);-webkit-text-stroke:3px #0a0706}
+.name{position:absolute;z-index:9;top:${fighters ? infoTop - 120 : nameY}px;width:${w * 0.46}px;display:flex;align-items:center;justify-content:center;gap:14px}
+.name-L{left:${fighters ? 40 : cx('L') - w * 0.23}px;${fighters ? 'justify-content:flex-start;' : ''}}
+.name-R{left:${fighters ? w - 40 - w * 0.46 : cx('R') - w * 0.23}px;${fighters ? 'justify-content:flex-end;' : ''}}
+.nm{font-size:${fighters ? 72 : 62}px;line-height:1;color:var(--bone);text-shadow:0 4px 0 rgba(0,0,0,.6),0 8px 30px rgba(0,0,0,.95);white-space:nowrap}
+.badge{height:42px;border-radius:6px;box-shadow:0 4px 12px rgba(0,0,0,.7);border:2px solid rgba(239,230,212,.7)}
+.info{position:absolute;z-index:10;left:0;right:0;top:${infoTop}px;display:flex;flex-direction:column;align-items:center;gap:${story ? 22 : 14}px}
+.when{display:flex;align-items:stretch;background:rgba(10,7,6,.82);border:2px solid rgba(217,162,74,.6);border-radius:22px;box-shadow:0 20px 50px rgba(0,0,0,.7);overflow:hidden}
+.when > div{padding:${story ? '20px 36px' : '16px 30px'};display:flex;flex-direction:column;justify-content:center}
+.day{border-right:2px solid rgba(217,162,74,.45);text-align:right}
+.wd{font-weight:700;font-size:${story ? 34 : 30}px;letter-spacing:.2em;text-transform:uppercase;color:var(--bone)}
+.dt{font-weight:600;font-size:${story ? 26 : 23}px;letter-spacing:.16em;text-transform:uppercase;color:var(--bone-dim)}
+.time{font-weight:700;font-size:${story ? 96 : 84}px;line-height:1;color:var(--brass)}
+.chan{font-weight:700;font-size:22px;letter-spacing:.24em;text-transform:uppercase;color:var(--bone-dim)}
+.chan b{color:var(--bone)}
+`
+  const label = `${esc(event.league)}`
   const body = `
-<div class="top">
-  <span class="chip">${event.featured ? STAR : ''}${esc(event.featured ? 'Destacado' : SPORT_LABEL[event.sport] ?? 'Deportes')}</span>
-  <span class="league">${esc(event.league)}</span>
+${sideBg(A, va, 'L')}${sideBg(B, vb, 'R')}
+<div class="seam"></div>
+<div class="layer wood"></div><div class="layer vignette"></div>
+<div class="top">${LOGO()}${event.featured ? `<span class="tag">${STAR} Partido destacado</span>` : ''}<span class="label">${label}</span></div>
+${hero(A, va, 'L')}${hero(B, vb, 'R')}
+<div class="vs rye">VS</div>
+${name(A, va, 'L')}${name(B, vb, 'R')}
+<div class="info">
+  <div class="when"><div class="day"><span class="wd">${esc(fmtWeekday(event.kickoff))}</span><span class="dt">${esc(fmtDate(event.kickoff))}</span></div><div><span class="time">${esc(fmtTime(event.kickoff))}</span></div></div>
+  ${event.channel ? `<div class="chan">En vivo en Ocho 80 · <b>${esc(event.channel)}</b></div>` : '<div class="chan">En vivo en Ocho 80</div>'}
+  ${promo ? `<div class="ribbon">${esc(promo)}</div>` : ''}
 </div>
-<h1 class="display hero">${titleHtml(title)}</h1>
-${en ? `<p class="en">${esc(en)}</p>` : ''}
-<p class="script script-line">${esc(line.es)}</p>
-<div class="when">
-  <span class="tech day">${esc(fmtDay(event.kickoff))}</span>
-  <span class="time">${esc(fmtTime(event.kickoff))}</span>
-  ${event.channel ? `<span class="tech chan">${esc(event.channel)}</span>` : ''}
-</div>
-${promoText ? `<div class="promo ribbon">${esc(promoText)}</div>` : ''}`
-  return wrap(size, css, body)
+${FOOTER()}`
+  return page(size, css, body)
 }
 
+/** Fallback for events without a matchup (e.g. a full fight card or a draft): big title on the Ocho 80 palette. */
+function titleFlyer(event, promo, size) {
+  const story = size === 'story'
+  const t = event.title.es
+  const fs = t.length < 16 ? 130 : t.length < 28 ? 100 : 78
+  const css = `
+.bg{z-index:0;background:radial-gradient(70% 50% at 50% 42%,rgba(211,20,28,.55),transparent 70%),#140a08}
+.mid{position:absolute;z-index:10;left:70px;right:70px;top:${story ? 520 : 360}px;text-align:center}
+.t{font-size:${fs}px;line-height:1.02;text-shadow:0 6px 0 rgba(0,0,0,.5),0 10px 40px #000}
+.info{position:absolute;z-index:10;left:0;right:0;top:${story ? 1240 : 900}px;display:flex;flex-direction:column;align-items:center;gap:14px}
+.wd{font-weight:700;font-size:34px;letter-spacing:.22em;text-transform:uppercase}
+.time{font-weight:700;font-size:110px;line-height:1;color:var(--brass)}`
+  return page(size, css, `<div class="layer bg"></div><div class="layer wood"></div><div class="layer vignette"></div>
+<div class="top">${LOGO()}<span class="label">${esc(event.league)}</span></div>
+<div class="mid"><h1 class="rye t">${esc(t)}</h1></div>
+<div class="info"><span class="wd">${esc(fmtWeekday(event.kickoff))} · ${esc(fmtDate(event.kickoff))}</span><span class="time">${esc(fmtTime(event.kickoff))}</span>${event.channel ? `<span class="label">${esc(event.channel)}</span>` : ''}${promo ? `<div class="ribbon">${esc(promo)}</div>` : ''}</div>${FOOTER()}`)
+}
+
+// ---------- weekly roundup ("Esta semana") ----------
 export function roundupFlyer(events, { rangeLabel, promoFor }, size = 'feed') {
   const story = size === 'story'
-  const max = story ? 8 : 5
-  const shown = events.slice(0, max)
-  const rowH = story ? 150 : 122
+  const { h } = SIZES[size]
+  const shown = events.slice(0, story ? 8 : 5)
+  const rowH = story ? 142 : 130
+  const chip = (p) => {
+    if (!p) return '<span class="chip"></span>'
+    const v = visual(p)
+    if (v.cut) return `<span class="chip" style="background:${p.colors?.[0]}"><img class="face" src="${v.cut}" alt=""></span>`
+    if (v.logo) return `<span class="chip logo"><img src="${v.logo}" alt=""></span>`
+    if (v.flag) return `<span class="chip" style="background-image:url('${v.flag}');background-size:cover;background-position:center"></span>`
+    return `<span class="chip rye mono" style="background:${p.colors?.[0]}">${esc(initials(p))}</span>`
+  }
   const css = `
-.head{margin-top:${story ? 60 : 24}px}
-.kicker{font:700 28px Chakra;letter-spacing:.3em;color:var(--brass);text-transform:uppercase}
-.h{font-size:${story ? 96 : 72}px;margin-top:4px}
-.sub{font-size:${story ? 78 : 56}px;margin-top:0}
-.range{margin-top:10px;font:600 28px Chakra;letter-spacing:.2em;color:var(--bone-dim);text-transform:uppercase}
-.list{margin-top:${story ? 50 : 22}px;width:100%;display:flex;flex-direction:column;gap:12px}
-.item{display:flex;align-items:center;gap:26px;text-align:left;height:${rowH}px;padding:0 26px;border-radius:22px;background:linear-gradient(145deg,rgba(28,20,19,.92),rgba(10,7,6,.92));border:1px solid rgba(239,230,212,.16);box-shadow:inset 0 1px 0 rgba(255,255,255,.07)}
-.item.feat{border-color:rgba(217,162,74,.7)}
-.when{width:200px;flex:none;text-align:center;border-right:2px solid rgba(211,20,28,.8);padding-right:22px;white-space:nowrap}
-.d{font:700 24px Chakra;letter-spacing:.14em;color:var(--bone-dim);text-transform:uppercase}
-.t{font:700 46px Chakra;color:var(--brass);line-height:1.1}
+.bg{z-index:0;background:radial-gradient(80% 45% at 50% 18%,rgba(211,20,28,.5),transparent 70%),linear-gradient(180deg,#1a0c09,#0a0706)}
+.head{position:absolute;z-index:10;top:50px;left:0;right:0;display:flex;flex-direction:column;align-items:center;gap:10px}
+.h1{font-size:${story ? 112 : 92}px;line-height:1;margin-top:8px;text-shadow:5px 5px 0 var(--ember),0 10px 40px rgba(0,0,0,.9);-webkit-text-stroke:2px #0a0706}
+.range{font-weight:700;font-size:25px;letter-spacing:.3em;text-transform:uppercase;color:var(--brass)}
+.list{position:absolute;z-index:10;left:60px;right:60px;top:${story ? 470 : 395}px;display:flex;flex-direction:column;gap:${story ? 22 : 16}px}
+.row{height:${rowH}px;display:flex;align-items:center;gap:22px;padding:0 24px;border-radius:22px;background:linear-gradient(90deg,rgba(28,18,16,.94),rgba(12,8,7,.94));border:2px solid rgba(239,230,212,.12);box-shadow:0 14px 34px rgba(0,0,0,.55)}
+.row.feat{border-color:rgba(217,162,74,.75)}
+.when{width:178px;flex:none;text-align:center;white-space:nowrap}
+.d{font-weight:700;font-size:22px;letter-spacing:.16em;text-transform:uppercase;color:var(--bone-dim)}
+.t{font-weight:700;font-size:42px;line-height:1.05;color:var(--brass)}
+.pair{flex:none;display:flex;align-items:center;gap:8px}
+.chip{width:${rowH - 40}px;height:${rowH - 40}px;border-radius:50%;overflow:hidden;display:grid;place-items:center;border:3px solid rgba(239,230,212,.85);background:#222;box-shadow:0 6px 16px rgba(0,0,0,.6)}
+.chip.logo{border:none;background:transparent;box-shadow:none;border-radius:0}
+.chip.logo img{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 4px 8px rgba(0,0,0,.7))}
+.chip .face{width:100%;height:100%;object-fit:cover;object-position:50% 0}
+.chip.mono{font-size:34px;color:var(--bone)}
+.v{font-family:Rye,serif;font-size:24px;color:var(--ember-hot)}
 .mid{flex:1;min-width:0}
-.name{font:400 ${story ? 38 : 32}px Rye;text-transform:uppercase;line-height:1.08;color:var(--bone)}
-.meta{margin-top:6px;font:600 23px Chakra;letter-spacing:.12em;text-transform:uppercase;color:var(--bone-dim)}
-.meta .p{color:var(--ember-hot)}
-.star-wrap{color:var(--brass);font-size:30px}`
+.n{font-family:Rye,serif;font-size:${story ? 36 : 32}px;line-height:1.05;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.m{margin-top:6px;font-weight:600;font-size:19px;letter-spacing:.14em;text-transform:uppercase;color:var(--bone-dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.m .p{color:var(--ember-hot)}
+.cta{position:absolute;z-index:10;left:0;right:0;bottom:${story ? 150 : 108}px;text-align:center;font-weight:700;font-size:24px;letter-spacing:.3em;text-transform:uppercase;color:var(--bone)}
+.cta span{color:var(--brass)}`
   const rows = shown.map((e) => {
+    const [A, B] = e.sides ?? []
     const promo = promoFor(e)
-    return `<div class="item${e.featured ? ' feat' : ''}">
-  <div class="when"><div class="d">${esc(fmtShortDay(e.kickoff))}</div><div class="t">${esc(fmtShortTime(e.kickoff))}</div></div>
-  <div class="mid"><div class="name">${esc(e.title.es)}</div>
-  <div class="meta">${esc(e.league)}${e.channel ? ` · ${esc(e.channel)}` : ''}${promo ? ` · <span class="p">${esc(promo)}</span>` : ''}</div></div>
-  ${e.featured ? `<span class="star-wrap">${STAR}</span>` : ''}
+    const nm = A && B ? `${esc(A.short)} <span class="v">vs</span> ${esc(B.short)}` : esc(e.title.es)
+    return `<div class="row${e.featured ? ' feat' : ''}">
+  <div class="when"><div class="d">${esc(fmtShortDay(e.kickoff))}</div><div class="t">${esc(fmtTime(e.kickoff))}</div></div>
+  ${A && B ? `<div class="pair">${chip(A)}${chip(B)}</div>` : ''}
+  <div class="mid"><div class="n">${nm}</div><div class="m">${esc(e.league)}${e.channel ? ` · ${esc(e.channel)}` : ''}${promo ? ` · <span class="p">${esc(promo)}</span>` : ''}</div></div>
 </div>`
   }).join('')
-  const body = `
-<div class="head">
-  <p class="kicker">Esta semana en</p>
-  <h1 class="display h">Ocho 80</h1>
-  <p class="script sub">partidos en pantalla</p>
-  <p class="range">${esc(rangeLabel)}</p>
-</div>
-<div class="list">${rows}</div>`
-  return wrap(size, css, body)
+  const more = events.length - shown.length
+  return page(size, css, `<div class="layer bg"></div><div class="layer wood"></div>
+<div class="head">${LOGO()}<h1 class="rye h1">Esta semana</h1><span class="range">${esc(rangeLabel)}</span></div>
+<div class="list">${rows}</div>
+<div class="cta">${more > 0 ? `+${more} más · ` : ''}Desliza para ver cada partido <span>→</span></div>
+${FOOTER()}`)
 }
+

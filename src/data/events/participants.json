@@ -1,0 +1,27 @@
+{
+  "_readme": "Teams, countries and fighters referenced by events.json (home/away). kind: country | team | fighter. Countries use a flag (ISO code). Teams/fighters get their image from the infobox of the given English Wikipedia article (scripts/fetch-assets.js) unless you drop your own file at flyers/assets/custom/<slug>.png|svg|jpg — custom always wins. colors: [primary, secondary] used for the VS background.",
+
+  "mexico":      { "kind": "country", "name": { "es": "México", "en": "Mexico" }, "short": "MÉX", "flag": "mx", "colors": ["#006847", "#ce1126"] },
+  "jamaica":     { "kind": "country", "name": { "es": "Jamaica", "en": "Jamaica" }, "short": "JAM", "flag": "jm", "colors": ["#009b3a", "#fed100"] },
+
+  "fc-juarez":   { "kind": "team", "name": { "es": "FC Juárez", "en": "FC Juárez" }, "short": "JUÁREZ", "wiki": "FC_Juárez", "colors": ["#0a8a3b", "#c8102e"] },
+  "atlas":       { "kind": "team", "name": { "es": "Atlas", "en": "Atlas" }, "short": "ATLAS", "wiki": "Atlas_F.C.", "colors": ["#c8102e", "#111111"] },
+
+  "ciryl-gane":  { "kind": "fighter", "name": { "es": "Ciryl Gane", "en": "Ciryl Gane" }, "short": "GANE", "wiki": "Ciryl_Gane", "flag": "fr", "colors": ["#1d3a8a", "#c8102e"] },
+  "josh-hokit":  { "kind": "fighter", "name": { "es": "Josh Hokit", "en": "Josh Hokit" }, "short": "HOKIT", "wiki": "Josh_Hokit", "flag": "us", "colors": ["#b22234", "#3c3b6e"] },
+  "jiri-prochazka": { "kind": "fighter", "name": { "es": "Jiří Procházka", "en": "Jiří Procházka" }, "short": "PROCHÁZKA", "wiki": "Jiří_Procházka", "flag": "cz", "colors": ["#11457e", "#d7141a"] },
+  "stirling":    { "kind": "fighter", "name": { "es": "Stirling", "en": "Stirling" }, "short": "STIRLING", "colors": ["#3a3a3a", "#d9a24a"], "note": "Opponent's full name not confirmed by the first sweep — add wiki/flag once known." },
+  "charles-oliveira": { "kind": "fighter", "name": { "es": "Charles Oliveira", "en": "Charles Oliveira" }, "short": "OLIVEIRA", "wiki": "Charles_Oliveira", "flag": "br", "colors": ["#009c3b", "#ffdf00"] },
+  "diego-lopes": { "kind": "fighter", "name": { "es": "Diego Lopes", "en": "Diego Lopes" }, "short": "LOPES", "wiki": "Diego_Lopes_(fighter)", "flag": "br", "colors": ["#006847", "#ce1126"], "note": "Brazilian, based in Mexico — colors lean Mexican on purpose for the local crowd." },
+
+  "bears":       { "kind": "team", "name": { "es": "Bears", "en": "Bears" }, "short": "BEARS", "wiki": "Chicago_Bears", "colors": ["#0b162a", "#c83803"] },
+  "lions":       { "kind": "team", "name": { "es": "Lions", "en": "Lions" }, "short": "LIONS", "wiki": "Detroit_Lions", "colors": ["#0076b6", "#b0b7bc"] },
+  "eagles":      { "kind": "team", "name": { "es": "Eagles", "en": "Eagles" }, "short": "EAGLES", "wiki": "Philadelphia_Eagles", "colors": ["#004c54", "#a5acaf"] },
+  "cowboys":     { "kind": "team", "name": { "es": "Cowboys", "en": "Cowboys" }, "short": "COWBOYS", "wiki": "Dallas_Cowboys", "colors": ["#003594", "#869397"] },
+  "chiefs":      { "kind": "team", "name": { "es": "Chiefs", "en": "Chiefs" }, "short": "CHIEFS", "wiki": "Kansas_City_Chiefs", "colors": ["#e31837", "#ffb81c"] },
+  "bills":       { "kind": "team", "name": { "es": "Bills", "en": "Bills" }, "short": "BILLS", "wiki": "Buffalo_Bills", "colors": ["#00338d", "#c60c30"] },
+  "patriots":    { "kind": "team", "name": { "es": "Patriots", "en": "Patriots" }, "short": "PATRIOTS", "wiki": "New_England_Patriots", "colors": ["#002244", "#c60c30"] },
+  "chargers":    { "kind": "team", "name": { "es": "Chargers", "en": "Chargers" }, "short": "CHARGERS", "wiki": "Los_Angeles_Chargers", "colors": ["#0080c6", "#ffc20e"] },
+  "panthers":    { "kind": "team", "name": { "es": "Panthers", "en": "Panthers" }, "short": "PANTHERS", "wiki": "Carolina_Panthers", "colors": ["#0085ca", "#101820"] },
+  "buccaneers":  { "kind": "team", "name": { "es": "Buccaneers", "en": "Buccaneers" }, "short": "BUCS", "wiki": "Tampa_Bay_Buccaneers", "colors": ["#d50a0a", "#34302b"] }
+}

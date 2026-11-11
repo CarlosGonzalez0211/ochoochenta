@@ -42,7 +42,16 @@ scripts/
 Use stable ids (`date-league-teams`) so re-running a sweep updates instead of duplicating.
 
 ## Flyers
-`npm run build:flyers` renders PNGs into `flyers/out/` (git-ignored): one feed (1080×1350) and one story (1080×1920) per verified upcoming event, plus a weekly roundup. Times are shown in Juárez time. Specials only appear on a flyer when `approved: true`.
-- `-- --all` includes unverified events (preview only, don't post)
-- `-- --id <event-id>` one event; `-- --days 10` roundup window
-Needs Playwright + Chromium (preinstalled in the cloud sandbox).
+VS-style flyers, one per event, plus an "Esta semana" cover. Two fonts only: Rye (names + VS) and Chakra Petch (everything else). Each side takes its team's colors; Ocho 80 owns the frame, logo and footer.
+
+1. `npm run fetch:assets` — flags (flagcdn) + team logos / fighter photos (Wikipedia infobox) into `flyers/assets/cache/` (git-ignored). Credits land in `cache/credits.json`.
+2. `python3 scripts/cutout.py` — removes the background from fighter photos (`pip install "rembg[cpu]" scipy` once).
+3. `npm run build:flyers` — renders verified upcoming events:
+   - `flyers/out/esta-semana-<date>/00-esta-semana-*.png` cover + `01…NN-<event>-*.png` one per game, in carousel order
+   - `flyers/out/proximos/` events after this week
+   - every flyer in feed (1080×1350) and story (1080×1920)
+   - `-- --all` previews unverified events (don't post), `-- --id <id>`, `-- --days 7`
+
+Participants (teams, countries, fighters) live in `src/data/events/participants.json`; an event points at two of them with `"matchup": ["left-slug", "right-slug"]`. To use an official/licensed image instead of the downloaded one, drop it in `flyers/assets/custom/<slug>.png|svg|jpg` — custom always wins.
+
+**Rights:** team/league logos are trademarks and agency photos are copyrighted. Check credits.json and the source pages before posting commercially, and prefer club-provided media kits when you can get them.

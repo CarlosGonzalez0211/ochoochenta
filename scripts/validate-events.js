@@ -6,6 +6,7 @@ const read = (p) => JSON.parse(readFileSync(new URL(p, import.meta.url), 'utf8')
 const events = read('../src/data/events/events.json')
 const promos = read('../src/data/events/promos-by-sport.json')
 const promoIds = Object.keys(promos).filter((k) => !k.startsWith('_'))
+const participantIds = Object.keys(read('../src/data/events/participants.json')).filter((k) => !k.startsWith('_'))
 
 let errors = 0
 let warnings = 0
@@ -19,7 +20,7 @@ if (!Array.isArray(events)) {
 
 for (const e of events) {
   const label = e?.id ?? '(no id)'
-  for (const msg of validateEvent(e, { promoIds })) { console.error(`✗ ${label}: ${msg}`); errors++ }
+  for (const msg of validateEvent(e, { promoIds, participantIds })) { console.error(`✗ ${label}: ${msg}`); errors++ }
   if (seen.has(e.id)) { console.error(`✗ ${label}: duplicate id`); errors++ }
   seen.add(e.id)
   if (Date.parse(e.kickoff) < now - 24 * 3600 * 1000) { console.warn(`! ${label}: kickoff is in the past — run npm run build:events to prune`); warnings++ }

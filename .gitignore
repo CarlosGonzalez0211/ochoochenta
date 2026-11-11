@@ -25,3 +25,4 @@ dist-ssr
 
 # Generated flyers
 flyers/out
+flyers/assets/cache

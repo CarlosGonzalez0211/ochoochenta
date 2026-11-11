@@ -14,6 +14,7 @@ const inboxUrl = new URL('../research/inbox/', import.meta.url)
 
 const events = JSON.parse(readFileSync(eventsUrl, 'utf8'))
 const promoIds = Object.keys(JSON.parse(readFileSync(promosUrl, 'utf8'))).filter((k) => !k.startsWith('_'))
+const participantIds = Object.keys(JSON.parse(readFileSync(new URL('../src/data/events/participants.json', import.meta.url), 'utf8'))).filter((k) => !k.startsWith('_'))
 const byId = new Map(events.map((e) => [e.id, e]))
 const cutoff = Date.now() - 24 * 3600 * 1000
 let added = 0, updated = 0, rejected = 0
@@ -23,10 +24,11 @@ for (const file of readdirSync(inboxUrl).filter((f) => f.endsWith('.json'))) {
   try { batch = JSON.parse(readFileSync(new URL(file, inboxUrl), 'utf8')) } catch (err) { console.error(`✗ ${file}: invalid JSON (${err.message})`); rejected++; continue }
   for (const raw of batch) {
     const incoming = { featured: false, promoId: '', source: '', notes: '', ...raw, verified: false }
-    const problems = validateEvent(incoming, { promoIds })
+    const problems = validateEvent(incoming, { promoIds, participantIds })
     if (problems.length) { console.error(`✗ ${file} / ${raw.id ?? '(no id)'}: ${problems.join('; ')}`); rejected++; continue }
     const current = byId.get(incoming.id)
     if (!current) { byId.set(incoming.id, incoming); added++; continue }
+    if (incoming.matchup && !current.matchup) { byId.set(incoming.id, { ...current, matchup: incoming.matchup }); updated++ }
     if (current.kickoff !== incoming.kickoff || current.channel !== incoming.channel) {
       byId.set(incoming.id, { ...current, kickoff: incoming.kickoff, channel: incoming.channel ?? current.channel, source: incoming.source || current.source, verified: false })
       updated++
