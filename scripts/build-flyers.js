@@ -7,9 +7,10 @@
 //   npm run build:flyers -- --now <ISO>   pretend it's another moment (testing)
 //
 // Output — ready to post as a carousel, in this order:
-//   flyers/out/esta-semana-<date>/00-esta-semana-{feed,story}.png   the roundup (cover slide)
-//   flyers/out/esta-semana-<date>/NN-<event-id>-{feed,story}.png    one VS flyer per event in the roundup
-//   flyers/out/proximos/<event-id>-{feed,story}.png                 events after this week
+//   flyers/out/esta-semana-<date>/00-esta-semana.png   the roundup (cover slide)
+//   flyers/out/esta-semana-<date>/NN-<event-id>.png    one VS flyer per event in the roundup
+//   flyers/out/proximos/<event-id>.png                 events after this week
+// Every flyer is Instagram feed size, 1080×1350 (4:5), so a carousel stays uniform.
 //
 // Assets: run `npm run fetch:assets` (logos, flags, photos) and `python3 scripts/cutout.py` (fighter cutouts) first.
 // Needs Playwright + Chromium (preinstalled in the cloud sandbox; locally: npm i -D playwright && npx playwright install chromium).
@@ -22,6 +23,7 @@ const args = process.argv.slice(2)
 const flag = (n) => args.includes(`--${n}`)
 const val = (n) => { const i = args.indexOf(`--${n}`); return i >= 0 ? args[i + 1] : undefined }
 
+const SIZE = 'feed' // Instagram 4:5
 const now = val('now') ? Date.parse(val('now')) : Date.now()
 const days = Number(val('days') ?? 7)
 const read = (p) => JSON.parse(readFileSync(new URL(p, import.meta.url), 'utf8'))
@@ -74,13 +76,13 @@ const later = events.filter((e) => !week.includes(e))
 if (week.length) {
   const folder = `esta-semana-${new Date(now).toISOString().slice(0, 10)}`
   const rangeLabel = `${fmtDate(new Date(now).toISOString())} – ${fmtDate(new Date(end).toISOString())}`
-  for (const size of ['feed', 'story']) await render(roundupFlyer(week, { rangeLabel, promoFor }, size), size, `${folder}/00-esta-semana-${size}.png`)
+  await render(roundupFlyer(week, { rangeLabel, promoFor }, SIZE), SIZE, `${folder}/00-esta-semana.png`)
   for (const [i, e] of week.entries()) {
     const n = String(i + 1).padStart(2, '0')
-    for (const size of ['feed', 'story']) await render(eventFlyer(e, promoFor(e), size), size, `${folder}/${n}-${e.id}-${size}.png`)
+    await render(eventFlyer(e, promoFor(e), SIZE), SIZE, `${folder}/${n}-${e.id}.png`)
   }
 }
-for (const e of later) for (const size of ['feed', 'story']) await render(eventFlyer(e, promoFor(e), size), size, `proximos/${e.id}-${size}.png`)
+for (const e of later) await render(eventFlyer(e, promoFor(e), SIZE), SIZE, `proximos/${e.id}.png`)
 
 rmSync(tmp, { force: true })
 await browser.close()

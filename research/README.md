@@ -47,9 +47,9 @@ VS-style flyers, one per event, plus an "Esta semana" cover. Two fonts only: Rye
 1. `npm run fetch:assets` — flags (flagcdn) + team logos / fighter photos (Wikipedia infobox) into `flyers/assets/cache/` (git-ignored). Credits land in `cache/credits.json`.
 2. `python3 scripts/cutout.py` — removes the background from fighter photos (`pip install "rembg[cpu]" scipy` once).
 3. `npm run build:flyers` — renders verified upcoming events:
-   - `flyers/out/esta-semana-<date>/00-esta-semana-*.png` cover + `01…NN-<event>-*.png` one per game, in carousel order
+   - `flyers/out/esta-semana-<date>/00-esta-semana.png` cover + `01…NN-<event>.png` one per game, in carousel order
    - `flyers/out/proximos/` events after this week
-   - every flyer in feed (1080×1350) and story (1080×1920)
+   - every flyer is Instagram feed size, 1080×1350 (4:5)
    - `-- --all` previews unverified events (don't post), `-- --id <id>`, `-- --days 7`
 
 Participants (teams, countries, fighters) live in `src/data/events/participants.json`; an event points at two of them with `"matchup": ["left-slug", "right-slug"]`. To use an official/licensed image instead of the downloaded one, drop it in `flyers/assets/custom/<slug>.png|svg|jpg` — custom always wins.
