@@ -40,3 +40,9 @@ scripts/
 }
 ```
 Use stable ids (`date-league-teams`) so re-running a sweep updates instead of duplicating.
+
+## Flyers
+`npm run build:flyers` renders PNGs into `flyers/out/` (git-ignored): one feed (1080×1350) and one story (1080×1920) per verified upcoming event, plus a weekly roundup. Times are shown in Juárez time. Specials only appear on a flyer when `approved: true`.
+- `-- --all` includes unverified events (preview only, don't post)
+- `-- --id <event-id>` one event; `-- --days 10` roundup window
+Needs Playwright + Chromium (preinstalled in the cloud sandbox).

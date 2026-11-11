@@ -9,6 +9,7 @@
     "lint": "oxlint && npm run validate:events",
     "validate:events": "node scripts/validate-events.js",
     "build:events": "node scripts/build-events.js",
+    "build:flyers": "node scripts/build-flyers.js",
     "preview": "vite preview"
   },
   "dependencies": {
