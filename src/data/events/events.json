@@ -1,0 +1,28 @@
+[
+  {
+    "id": "sample-soccer-001",
+    "sport": "soccer",
+    "league": "Liga MX",
+    "title": { "es": "EJEMPLO · Liga MX (reemplazar con partido real)", "en": "SAMPLE · Liga MX (replace with a real match)" },
+    "kickoff": "2026-11-21T19:00:00-07:00",
+    "channel": "TUDN",
+    "featured": true,
+    "promoId": "soccer",
+    "source": "",
+    "verified": false,
+    "notes": "Placeholder so the Game Day section has something to render in dev. Delete once real events are curated."
+  },
+  {
+    "id": "sample-boxing-001",
+    "sport": "boxing",
+    "league": "Boxing",
+    "title": { "es": "EJEMPLO · Pelea estelar (reemplazar)", "en": "SAMPLE · Main event fight (replace)" },
+    "kickoff": "2026-11-28T20:00:00-07:00",
+    "channel": "",
+    "featured": false,
+    "promoId": "boxing",
+    "source": "",
+    "verified": false,
+    "notes": "Placeholder."
+  }
+]

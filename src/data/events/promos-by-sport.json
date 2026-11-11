@@ -1,0 +1,27 @@
+{
+  "_readme": "Reusable specials per sport. The site only shows a promo on an event when approved is true — the owner decides what is actually offered. Edit freely; ids are referenced by events.json promoId.",
+  "soccer": {
+    "approved": false,
+    "text": { "es": "Litros y botana para ver el partido", "en": "Liters and snacks for the match" }
+  },
+  "football": {
+    "approved": false,
+    "text": { "es": "Alitas y cubetas durante el juego", "en": "Wings and buckets during the game" }
+  },
+  "boxing": {
+    "approved": false,
+    "text": { "es": "Mesa reservada y parrillada para la pelea", "en": "Reserved table and grill platter for the fight" }
+  },
+  "mma": {
+    "approved": false,
+    "text": { "es": "Cartelera completa en pantalla", "en": "Full fight card on screen" }
+  },
+  "baseball": {
+    "approved": false,
+    "text": { "es": "Cerveza bien fría durante el juego", "en": "Ice-cold beer during the game" }
+  },
+  "basketball": {
+    "approved": false,
+    "text": { "es": "Botana y bebidas durante el juego", "en": "Snacks and drinks during the game" }
+  }
+}

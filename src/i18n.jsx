@@ -29,7 +29,7 @@ GOOGLE.writeUrl = `https://search.google.com/local/writereview?placeid=${GOOGLE.
 const STRINGS = {
   es: {
     decimal: ',',
-    nav: { menu: 'Menú', promos: 'Promociones', gallery: 'Galería', reviews: 'Reseñas', visit: 'Visítanos', order: 'Pedir ahora' },
+    nav: { menu: 'Menú', promos: 'Promociones', games: 'Partidos', gallery: 'Galería', reviews: 'Reseñas', visit: 'Visítanos', order: 'Pedir ahora' },
     hero: {
       kicker: 'Restaurant · Bar',
       title: 'Sabor mexicano, buen ambiente.',
@@ -93,15 +93,22 @@ const STRINGS = {
       orderTitle: '¿Prefieres en casa?',
       orderBody: 'Pídenos por Uber Eats y recibe tu comida donde estés.',
     },
+    games: {
+      title: 'Partidos en vivo',
+      sub: 'Ven el juego con tu banda. Próximas transmisiones en Ocho 80.',
+      featured: 'Destacado',
+      on: 'En',
+      sports: { soccer: 'Fútbol', football: 'Fútbol americano', boxing: 'Box', mma: 'MMA', baseball: 'Béisbol', basketball: 'Basquetbol', other: 'Deportes' },
+    },
     footer: { rights: 'Todos los derechos reservados.' },
     marquee: ['Desayunos', 'Mariscos', 'Parrilladas', 'Litros $88.80', 'Jueves de karaoke', 'Viernes de Ladies Night', 'Antojitos mexicanos'],
-    eyebrow: { menu: 'Sabor de la casa', promos: 'Esta semana', gallery: 'De la cocina y la barra', reviews: 'Lo que dicen', visit: 'Ciudad Juárez' },
+    eyebrow: { games: 'Transmisiones', menu: 'Sabor de la casa', promos: 'Esta semana', gallery: 'De la cocina y la barra', reviews: 'Lo que dicen', visit: 'Ciudad Juárez' },
     langLabel: 'Idioma',
     close: 'Cerrar',
   },
   en: {
     decimal: '.',
-    nav: { menu: 'Menu', promos: 'Specials', gallery: 'Gallery', reviews: 'Reviews', visit: 'Visit', order: 'Order now' },
+    nav: { menu: 'Menu', promos: 'Specials', games: 'Games', gallery: 'Gallery', reviews: 'Reviews', visit: 'Visit', order: 'Order now' },
     hero: {
       kicker: 'Restaurant · Bar',
       title: 'Mexican flavor, great vibes.',
@@ -164,9 +171,16 @@ const STRINGS = {
       orderTitle: 'Rather stay in?',
       orderBody: 'Order through Uber Eats and get your food wherever you are.',
     },
+    games: {
+      title: 'Live games',
+      sub: 'Catch the game with your crew. Upcoming broadcasts at Ocho 80.',
+      featured: 'Featured',
+      on: 'On',
+      sports: { soccer: 'Soccer', football: 'Football', boxing: 'Boxing', mma: 'MMA', baseball: 'Baseball', basketball: 'Basketball', other: 'Sports' },
+    },
     footer: { rights: 'All rights reserved.' },
     marquee: ['Breakfast', 'Seafood', 'Grill platters', 'Liters $88.80', 'Karaoke Thursday', 'Ladies Night Friday', 'Mexican classics'],
-    eyebrow: { menu: 'House flavors', promos: 'This week', gallery: 'From the kitchen & the bar', reviews: 'What people say', visit: 'Ciudad Juárez' },
+    eyebrow: { games: 'Live on screen', menu: 'House flavors', promos: 'This week', gallery: 'From the kitchen & the bar', reviews: 'What people say', visit: 'Ciudad Juárez' },
     langLabel: 'Language',
     close: 'Close',
   },

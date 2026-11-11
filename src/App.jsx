@@ -3,6 +3,7 @@ import { I18nProvider, useI18n } from './i18n'
 import Header from './components/Header'
 import Hero from './components/Hero'
 import Promos from './components/Promos'
+import GameDay from './components/GameDay'
 import Menu from './components/Menu'
 import Gallery from './components/Gallery'
 import Reviews from './components/Reviews'
@@ -10,7 +11,7 @@ import Visit from './components/Visit'
 import OrderModal from './components/OrderModal'
 import { Marquee, OrderButton } from './components/ui'
 
-const SECTION_IDS = ['top', 'menu', 'promos', 'galeria', 'resenas', 'visitanos']
+const SECTION_IDS = ['top', 'menu', 'promos', 'partidos', 'galeria', 'resenas', 'visitanos']
 
 /** Lands at the top (or at #section from the URL), and keeps the URL hash in sync while scrolling. */
 function useHashScroll() {
@@ -109,6 +110,7 @@ export default function App() {
         <Marquee />
         <Menu />
         <Promos />
+        <GameDay />
         <Gallery />
         <Reviews />
         <Visit />

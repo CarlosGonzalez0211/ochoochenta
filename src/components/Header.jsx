@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useI18n } from '../i18n'
 import { OrderButton } from './ui'
+import { getUpcoming } from '../data/events'
 
 function LangToggle() {
   const { lang, setLang, s } = useI18n()
@@ -36,6 +37,7 @@ export default function Header() {
   const links = [
     ['menu', s.nav.menu],
     ['promos', s.nav.promos],
+    ...(getUpcoming().length ? [['partidos', s.nav.games]] : []),
     ['galeria', s.nav.gallery],
     ['resenas', s.nav.reviews],
     ['visitanos', s.nav.visit],
