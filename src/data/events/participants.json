@@ -23,5 +23,13 @@
   "patriots":    { "kind": "team", "name": { "es": "Patriots", "en": "Patriots" }, "short": "PATRIOTS", "wiki": "New_England_Patriots", "colors": ["#002244", "#c60c30"] },
   "chargers":    { "kind": "team", "name": { "es": "Chargers", "en": "Chargers" }, "short": "CHARGERS", "wiki": "Los_Angeles_Chargers", "colors": ["#0080c6", "#ffc20e"] },
   "panthers":    { "kind": "team", "name": { "es": "Panthers", "en": "Panthers" }, "short": "PANTHERS", "wiki": "Carolina_Panthers", "colors": ["#0085ca", "#101820"] },
-  "buccaneers":  { "kind": "team", "name": { "es": "Buccaneers", "en": "Buccaneers" }, "short": "BUCS", "wiki": "Tampa_Bay_Buccaneers", "colors": ["#d50a0a", "#34302b"] }
+  "buccaneers":  { "kind": "team", "name": { "es": "Buccaneers", "en": "Buccaneers" }, "short": "BUCS", "wiki": "Tampa_Bay_Buccaneers", "colors": ["#d50a0a", "#34302b"] },
+  "steelers": { "kind": "team", "name": { "es": "Steelers", "en": "Steelers" }, "short": "STEELERS", "wiki": "Pittsburgh_Steelers", "colors": ["#101820", "#ffb612"] },
+  "bengals": { "kind": "team", "name": { "es": "Bengals", "en": "Bengals" }, "short": "BENGALS", "wiki": "Cincinnati_Bengals", "colors": ["#fb4f14", "#000000"] },
+  "colts": { "kind": "team", "name": { "es": "Colts", "en": "Colts" }, "short": "COLTS", "wiki": "Indianapolis_Colts", "colors": ["#002c5f", "#a2aaad"] },
+  "texans": { "kind": "team", "name": { "es": "Texans", "en": "Texans" }, "short": "TEXANS", "wiki": "Houston_Texans", "colors": ["#03202f", "#a71930"] },
+  "titans": { "kind": "team", "name": { "es": "Titans", "en": "Titans" }, "short": "TITANS", "wiki": "Tennessee_Titans", "colors": ["#0c2340", "#4b92db"] },
+  "vikings": { "kind": "team", "name": { "es": "Vikings", "en": "Vikings" }, "short": "VIKINGS", "wiki": "Minnesota_Vikings", "colors": ["#4f2683", "#ffc62f"] },
+  "49ers": { "kind": "team", "name": { "es": "49ers", "en": "49ers" }, "short": "49ERS", "wiki": "San_Francisco_49ers", "colors": ["#aa0000", "#b3995d"] },
+  "commanders": { "kind": "team", "name": { "es": "Commanders", "en": "Commanders" }, "short": "COMMANDERS", "wiki": "Washington_Commanders", "colors": ["#5a1414", "#ffb612"] }
 }

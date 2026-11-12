@@ -18,6 +18,7 @@ import { readFileSync, writeFileSync, mkdirSync, rmSync } from 'node:fs'
 import { createRequire } from 'node:module'
 import { pathToFileURL, fileURLToPath } from 'node:url'
 import { eventFlyer, roundupFlyer, fmtDate, SIZES } from './flyers/templates.js'
+import { VENUE_TZ } from '../src/data/events/schema.js'
 
 const args = process.argv.slice(2)
 const flag = (n) => args.includes(`--${n}`)
@@ -69,14 +70,27 @@ async function render(html, size, file) {
   console.log(`✓ flyers/out/${file}`)
 }
 
-const end = now + days * 24 * 3600 * 1000
+// window runs to the END of the last day, Juárez time (so a Sunday-night game isn't cut off)
+const endOfDayInJuarez = (ms) => {
+  const f = Object.fromEntries(new Intl.DateTimeFormat('en-CA', { timeZone: VENUE_TZ, year: 'numeric', month: '2-digit', day: '2-digit', timeZoneName: 'longOffset' }).formatToParts(new Date(ms)).map((x) => [x.type, x.value]))
+  const off = f.timeZoneName.replace('GMT', '') || '+00:00'
+  return Date.parse(`${f.year}-${f.month}-${f.day}T23:59:59${off}`)
+}
+const end = endOfDayInJuarez(now + days * 24 * 3600 * 1000)
 const week = val('id') ? [] : events.filter((e) => Date.parse(e.kickoff) <= end)
 const later = events.filter((e) => !week.includes(e))
 
 if (week.length) {
   const folder = `esta-semana-${new Date(now).toISOString().slice(0, 10)}`
   const rangeLabel = `${fmtDate(new Date(now).toISOString())} – ${fmtDate(new Date(end).toISOString())}`
-  await render(roundupFlyer(week, { rangeLabel, promoFor }, SIZE), SIZE, `${folder}/00-esta-semana.png`)
+  // 6 games per cover; a busy week gets 00a, 00b… so every game is listed
+  const pages = []
+  for (let i = 0; i < week.length; i += 6) pages.push(week.slice(i, i + 6))
+  for (const [i, chunk] of pages.entries()) {
+    const suffix = pages.length > 1 ? String.fromCharCode(97 + i) : ''
+    const pageLabel = pages.length > 1 ? `${i + 1}/${pages.length}` : ''
+    await render(roundupFlyer(chunk, { rangeLabel, promoFor, pageLabel, last: i === pages.length - 1 }, SIZE), SIZE, `${folder}/00${suffix}-esta-semana.png`)
+  }
   for (const [i, e] of week.entries()) {
     const n = String(i + 1).padStart(2, '0')
     await render(eventFlyer(e, promoFor(e), SIZE), SIZE, `${folder}/${n}-${e.id}.png`)

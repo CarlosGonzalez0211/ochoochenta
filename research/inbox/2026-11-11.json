@@ -69,7 +69,7 @@
       "josh-hokit"
     ],
     "kickoff": "2026-11-14T21:00:00-05:00",
-    "channel": "Paramount+",
+    "channel": "",
     "featured": false,
     "promoId": "mma",
     "source": "https://www.paramountplus.com/sneak-peak/ufc-schedule-2026/",
@@ -88,7 +88,7 @@
       "stirling"
     ],
     "kickoff": "2026-11-21T17:00:00-05:00",
-    "channel": "Paramount+",
+    "channel": "",
     "featured": false,
     "promoId": "mma",
     "source": "https://www.paramountplus.com/sneak-peak/ufc-schedule-2026/",
@@ -126,7 +126,7 @@
       "lions"
     ],
     "kickoff": "2026-11-26T13:00:00-05:00",
-    "channel": "CBS / Paramount+",
+    "channel": "CBS",
     "featured": false,
     "promoId": "football",
     "source": "https://www.foxsports.com/stories/nfl/2026-nfl-thanksgiving-games-schedule-teams-how-watch",

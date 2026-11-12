@@ -192,11 +192,11 @@ function titleFlyer(event, promo, size) {
 }
 
 // ---------- weekly roundup ("Esta semana") ----------
-export function roundupFlyer(events, { rangeLabel, promoFor }, size = 'feed') {
+export function roundupFlyer(events, { rangeLabel, promoFor, pageLabel = '', last = true }, size = 'feed') {
   const story = size === 'story'
   const { h } = SIZES[size]
-  const shown = events.slice(0, story ? 8 : 5)
-  const rowH = story ? 142 : 130
+  const shown = events.slice(0, story ? 8 : 6)
+  const rowH = story ? 142 : shown.length > 5 ? 112 : 130
   const chip = (p) => {
     if (!p) return '<span class="chip"></span>'
     const v = visual(p)
@@ -210,7 +210,7 @@ export function roundupFlyer(events, { rangeLabel, promoFor }, size = 'feed') {
 .head{position:absolute;z-index:10;top:50px;left:0;right:0;display:flex;flex-direction:column;align-items:center;gap:10px}
 .h1{font-size:${story ? 112 : 92}px;line-height:1;margin-top:8px;text-shadow:5px 5px 0 var(--ember),0 10px 40px rgba(0,0,0,.9);-webkit-text-stroke:2px #0a0706}
 .range{font-weight:700;font-size:25px;letter-spacing:.3em;text-transform:uppercase;color:var(--brass)}
-.list{position:absolute;z-index:10;left:60px;right:60px;top:${story ? 470 : 395}px;display:flex;flex-direction:column;gap:${story ? 22 : 16}px}
+.list{position:absolute;z-index:10;left:60px;right:60px;top:${story ? 470 : 395}px;display:flex;flex-direction:column;gap:${story ? 22 : shown.length > 5 ? 12 : 16}px}
 .row{height:${rowH}px;display:flex;align-items:center;gap:22px;padding:0 24px;border-radius:22px;background:linear-gradient(90deg,rgba(28,18,16,.94),rgba(12,8,7,.94));border:2px solid rgba(239,230,212,.12);box-shadow:0 14px 34px rgba(0,0,0,.55)}
 .row.feat{border-color:rgba(217,162,74,.75)}
 .when{width:178px;flex:none;text-align:center;white-space:nowrap}
@@ -241,9 +241,9 @@ export function roundupFlyer(events, { rangeLabel, promoFor }, size = 'feed') {
   }).join('')
   const more = events.length - shown.length
   return page(size, css, `<div class="layer bg"></div><div class="layer wood"></div>
-<div class="head">${LOGO()}<h1 class="rye h1">Esta semana</h1><span class="range">${esc(rangeLabel)}</span></div>
+<div class="head">${LOGO()}<h1 class="rye h1">Esta semana</h1><span class="range">${esc(rangeLabel)}${pageLabel ? ` · ${esc(pageLabel)}` : ''}</span></div>
 <div class="list">${rows}</div>
-<div class="cta">${more > 0 ? `+${more} más · ` : ''}Desliza para ver cada partido <span>→</span></div>
+<div class="cta">${more > 0 ? `+${more} más · ` : ''}${last ? 'Desliza para ver cada partido' : 'Desliza, hay más partidos'} <span>→</span></div>
 ${FOOTER()}`)
 }
 
