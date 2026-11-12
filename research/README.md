@@ -44,6 +44,8 @@ Use stable ids (`date-league-teams`) so re-running a sweep updates instead of du
 ## Flyers
 VS-style flyers, one per event, plus an "Esta semana" cover. Two fonts only: Rye (names + VS) and Chakra Petch (everything else). Each side takes its team's colors; Ocho 80 owns the frame, logo and footer.
 
+The finished PNGs are committed in `flyers/out/` so you can browse them in the repo.
+
 1. `npm run fetch:assets` — flags (flagcdn) + team logos / fighter photos (Wikipedia infobox) into `flyers/assets/cache/` (git-ignored). Credits land in `cache/credits.json`.
 2. `python3 scripts/cutout.py` — removes the background from fighter photos (`pip install "rembg[cpu]" scipy` once).
 3. `npm run build:flyers` — renders verified upcoming events:
