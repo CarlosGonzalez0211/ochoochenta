@@ -17,8 +17,9 @@
 import { readFileSync, writeFileSync, mkdirSync, rmSync } from 'node:fs'
 import { createRequire } from 'node:module'
 import { pathToFileURL, fileURLToPath } from 'node:url'
-import { eventFlyer, roundupFlyer, fmtDate, SIZES } from './flyers/templates.js'
+import { eventFlyer, roundupFlyer, fmtDate, fmtShortDay, fmtTime, SIZES } from './flyers/templates.js'
 import { VENUE_TZ } from '../src/data/events/schema.js'
+import { planPosts } from './flyers/priority.js'
 
 const args = process.argv.slice(2)
 const flag = (n) => args.includes(`--${n}`)
@@ -30,6 +31,7 @@ const days = Number(val('days') ?? 7)
 const read = (p) => JSON.parse(readFileSync(new URL(p, import.meta.url), 'utf8'))
 const promos = read('../src/data/events/promos-by-sport.json')
 const participants = read('../src/data/events/participants.json')
+const priorities = read('../src/data/events/priorities.json')
 const outDir = fileURLToPath(new URL('../flyers/out/', import.meta.url))
 const promoFor = (e) => { const p = e.promoId && promos[e.promoId]; return p?.approved ? p.text.es : null }
 const resolve = (slug) => (participants[slug] ? { slug, ...participants[slug] } : null)
@@ -77,13 +79,36 @@ const endOfDayInJuarez = (ms) => {
   return Date.parse(`${f.year}-${f.month}-${f.day}T23:59:59${off}`)
 }
 const end = endOfDayInJuarez(now + days * 24 * 3600 * 1000)
-const week = val('id') ? [] : events.filter((e) => Date.parse(e.kickoff) <= end)
-const later = events.filter((e) => !week.includes(e))
 
+// Which flyers to post: when events overlap in time, only the highest-priority one is posted (see priorities.json).
+const plan = val('id') ? { posted: events, skipped: [], scores: new Map() } : planPosts(events, priorities)
+const inWeek = (e) => Date.parse(e.kickoff) <= end
+const week = val('id') ? [] : plan.posted.filter(inWeek)
+const later = plan.posted.filter((e) => !inWeek(e))
+const alternates = plan.skipped.map((s) => s.event)
+
+const hhmm = (e) => `${fmtShortDay(e.kickoff)} ${fmtTime(e.kickoff)}`
+const name = (e) => (e.sides?.[0] && e.sides?.[1] ? `${e.sides[0].name.es} vs. ${e.sides[1].name.es}` : e.title.es)
+function writePlan() {
+  const lines = ['# Plan de publicación', '', `Generado ${new Date(now).toISOString().slice(0, 10)} · hora de Ciudad Juárez. Si dos eventos se empalman, solo se publica el de mayor prioridad (config: \`src/data/events/priorities.json\`).`, '']
+  lines.push('## Publicar', '')
+  for (const e of plan.posted) { const s = plan.scores.get(e.id); lines.push(`- **${name(e)}** · ${hhmm(e)} · ${e.league} · puntos ${s?.score ?? '-'} (${s?.why.join(', ') ?? ''})`) }
+  lines.push('', '## No publicar (se empalma con uno de mayor prioridad)', '')
+  if (!plan.skipped.length) lines.push('- Ninguno: no hay eventos empalmados.')
+  for (const { event: e, conflictsWith: c } of plan.skipped) { const s = plan.scores.get(e.id); lines.push(`- ${name(e)} · ${hhmm(e)} · puntos ${s.score} (${s.why.join(', ')}) → se empalma con **${name(c)}** (${hhmm(c)}, puntos ${plan.scores.get(c.id).score}). Su flyer está en \`alternativas/\` por si prefieres publicarlo en lugar del otro.`) }
+  return lines.join('\n') + '\n'
+}
+if (!val('id')) {
+  mkdirSync(outDir, { recursive: true })
+  writeFileSync(`${outDir}plan-de-publicacion.md`, writePlan())
+  console.log(`✓ flyers/out/plan-de-publicacion.md (${plan.posted.length} a publicar, ${plan.skipped.length} empalmados)`)
+}
+
+const stamp = new Date(now).toISOString().slice(0, 10)
+const folder = `esta-semana-${stamp}`
 if (week.length) {
-  const folder = `esta-semana-${new Date(now).toISOString().slice(0, 10)}`
   const rangeLabel = `${fmtDate(new Date(now).toISOString())} – ${fmtDate(new Date(end).toISOString())}`
-  // 6 games per cover; a busy week gets 00a, 00b… so every game is listed
+  // 6 games per cover; a busy week gets 00a, 00b… so every posted game is listed
   const pages = []
   const perPage = Math.ceil(week.length / Math.ceil(week.length / 6)) // balanced: 10 games -> 5 + 5, not 6 + 4
   for (let i = 0; i < week.length; i += perPage) pages.push(week.slice(i, i + perPage))
@@ -98,6 +123,8 @@ if (week.length) {
   }
 }
 for (const e of later) await render(eventFlyer(e, promoFor(e), SIZE), SIZE, `proximos/${e.id}.png`)
+// flyers for events that lost a time slot: kept, but out of the carousel
+for (const e of alternates) await render(eventFlyer(e, promoFor(e), SIZE), SIZE, `alternativas/${e.id}.png`)
 
 rmSync(tmp, { force: true })
 await browser.close()

@@ -56,6 +56,8 @@ The finished PNGs are committed in `flyers/out/` so you can browse them in the r
 
 Flyers never show the broadcaster/streaming brand; `channel` is kept in the data for reference only.
 
+**When events overlap** (kickoff windows intersect, e.g. a México match and a UFC card), the system picks one to post. Score = sport base + best participant bonus (México 100, FC Juárez 90, Cowboys 35…) + featured 20, set in `src/data/events/priorities.json`; give an event a `"priority": N` to override. The winner goes in the carousel, the loser's flyer goes in `flyers/out/alternativas/`, and `flyers/out/plan-de-publicacion.md` explains every choice. The "Esta semana" cover only lists posted games.
+
 Participants (teams, countries, fighters) live in `src/data/events/participants.json`; an event points at two of them with `"matchup": ["left-slug", "right-slug"]`. To use an official/licensed image instead of the downloaded one, drop it in `flyers/assets/custom/<slug>.png|svg|jpg` — custom always wins.
 
 **Rights:** team/league logos are trademarks and agency photos are copyrighted. Check credits.json and the source pages before posting commercially, and prefer club-provided media kits when you can get them.

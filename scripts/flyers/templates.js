@@ -44,6 +44,19 @@ export function visual(p) {
   }
 }
 
+// ---------- flags as backgrounds ----------
+// Where the flag's recognisable part sits, as [x%, y%] of the flag image. The background is positioned so this point lands
+// on the side's focal point, instead of cropping the flag to whatever slice happens to be in the middle.
+const FLAG_FOCUS = {
+  mx: [50, 50], // coat of arms
+  jm: [50, 50], // gold saltire
+  cz: [21, 50], // blue triangle
+  nz: [76, 52], // Southern Cross
+  us: [22, 27], // star canton
+  fr: [50, 50],
+  br: [50, 50], // globe
+}
+
 // ---------- shared css ----------
 const CSS = ({ w, h }) => `
 @font-face{font-family:Rye;src:url(${font('rye', 'rye-latin-400-normal.woff2')})}
@@ -126,10 +139,15 @@ export function eventFlyer(event, promo, size = 'feed') {
   const sideBg = (p, v, side) => {
     const [c1, c2] = p.colors ?? ['#333', '#111']
     const poly = side === 'L' ? `0 0,${seamTop}% 0,${seamBottom}% 100%,0 100%` : `${seamTop}% 0,100% 0,100% 100%,${seamBottom}% 100%`
-    const big = v.flag && p.kind === 'country'
-      ? `<img class="flagfill" src="${v.flag}" alt="">`
+    const flagBg = (soft) => {
+      const [fx, fy] = FLAG_FOCUS[p.flag] ?? [50, 50]
+      const tx = soft ? (side === 'L' ? 0.26 : 0.74) * w : cx(side)
+      const ty = soft ? 0.42 * h : 0.33 * h
+      return `<img class="flagfill${soft ? ' flagsoft' : ''}" src="${v.flag}" alt="" style="left:${Math.round(tx)}px;top:${Math.round(ty)}px;height:${soft ? 760 : 980}px;transform:translate(-${fx}%,-${fy}%)">`
+    }
+    const big = v.flag && p.kind === 'country' ? flagBg(false)
       : v.logo ? `<img class="ghost ghost-${side}" src="${v.logo}" alt="">`
-      : v.flag ? `<img class="flagfill flagsoft" src="${v.flag}" alt="">` : ''
+      : v.flag ? flagBg(true) : ''
     return `<div class="side" style="clip-path:polygon(${poly});background:linear-gradient(${side === 'L' ? '135deg' : '225deg'},${c1} 0%,${c1} 35%,${c2} 140%)">${big}<div class="shade-${side}"></div></div>`
   }
 
@@ -153,7 +171,7 @@ export function eventFlyer(event, promo, size = 'feed') {
 
   const css = `
 .side{position:absolute;inset:0;z-index:0;overflow:hidden}
-.flagfill{position:absolute;inset:-6%;width:112%;height:112%;object-fit:cover;opacity:.55;filter:saturate(1.15)}
+.flagfill{position:absolute;width:auto;max-width:none;opacity:.5;filter:saturate(1.15);-webkit-mask-image:linear-gradient(180deg,transparent 0%,#000 14%,#000 62%,transparent 100%);mask-image:linear-gradient(180deg,transparent 0%,#000 14%,#000 62%,transparent 100%)}
 .flagsoft{opacity:.25}
 .ghost{position:absolute;top:${story ? 18 : 10}%;width:${story ? 900 : 780}px;height:${story ? 900 : 780}px;object-fit:contain;opacity:.16;filter:grayscale(.2) brightness(1.4)}
 .ghost-L{left:-${story ? 330 : 300}px;transform:rotate(-12deg)}
@@ -190,7 +208,7 @@ export function eventFlyer(event, promo, size = 'feed') {
 ${sideBg(A, va, 'L')}${sideBg(B, vb, 'R')}
 <div class="seam"></div>
 <div class="layer wood"></div><div class="layer vignette"></div>
-<div class="top">${LOGO()}${event.featured ? `<span class="tag">${STAR} Partido destacado</span>` : ''}<span class="label">${label}</span></div>
+<div class="top">${LOGO()}<span class="label">${label}</span></div>
 ${hero(A, va, 'L')}${hero(B, vb, 'R')}
 <div class="vs rye">VS</div>
 ${name(A, va, 'L')}${name(B, vb, 'R')}

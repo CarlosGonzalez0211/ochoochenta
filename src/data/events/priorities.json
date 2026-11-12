@@ -1,0 +1,7 @@
+{
+  "_readme": "Used by `npm run build:flyers` to decide which flyer to post when events overlap in time. Score = sportBase + best participantBonus + featuredBonus; give an event its own \"priority\" number in events.json to override the computed score. Overlap = two events whose [kickoff, kickoff + durationHours) windows intersect. Edit these numbers to match what your crowd cares about.",
+  "durationHours": { "soccer": 2, "football": 3.5, "boxing": 4, "mma": 4, "baseball": 3, "basketball": 2.5, "other": 3 },
+  "sportBase": { "soccer": 30, "mma": 30, "boxing": 30, "football": 25, "baseball": 15, "basketball": 15, "other": 10 },
+  "participantBonus": { "mexico": 100, "fc-juarez": 90, "cowboys": 35 },
+  "featuredBonus": 20
+}
