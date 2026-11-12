@@ -10,7 +10,7 @@
   "ciryl-gane":  { "kind": "fighter", "name": { "es": "Ciryl Gane", "en": "Ciryl Gane" }, "short": "GANE", "wiki": "Ciryl_Gane", "flag": "fr", "colors": ["#1d3a8a", "#c8102e"] },
   "josh-hokit":  { "kind": "fighter", "name": { "es": "Josh Hokit", "en": "Josh Hokit" }, "short": "HOKIT", "wiki": "Josh_Hokit", "flag": "us", "colors": ["#b22234", "#3c3b6e"] },
   "jiri-prochazka": { "kind": "fighter", "name": { "es": "Jiří Procházka", "en": "Jiří Procházka" }, "short": "PROCHÁZKA", "wiki": "Jiří_Procházka", "flag": "cz", "colors": ["#11457e", "#d7141a"] },
-  "stirling":    { "kind": "fighter", "name": { "es": "Stirling", "en": "Stirling" }, "short": "STIRLING", "colors": ["#3a3a3a", "#d9a24a"], "note": "Opponent's full name not confirmed by the first sweep — add wiki/flag once known." },
+  "stirling":    { "kind": "fighter", "name": { "es": "Navajo Stirling", "en": "Navajo Stirling" }, "short": "STIRLING", "wiki": "Navajo_Stirling", "flag": "nz", "colors": ["#141414", "#b8bcc2"] },
   "charles-oliveira": { "kind": "fighter", "name": { "es": "Charles Oliveira", "en": "Charles Oliveira" }, "short": "OLIVEIRA", "wiki": "Charles_Oliveira", "flag": "br", "colors": ["#009c3b", "#ffdf00"] },
   "diego-lopes": { "kind": "fighter", "name": { "es": "Diego Lopes", "en": "Diego Lopes" }, "short": "LOPES", "wiki": "Diego_Lopes_(fighter)", "flag": "br", "colors": ["#006847", "#ce1126"], "note": "Brazilian, based in Mexico — colors lean Mexican on purpose for the local crowd." },
 
