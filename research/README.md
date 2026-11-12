@@ -52,6 +52,8 @@ VS-style flyers, one per event, plus an "Esta semana" cover. Two fonts only: Rye
    - every flyer is Instagram feed size, 1080×1350 (4:5)
    - `-- --all` previews unverified events (don't post), `-- --id <id>`, `-- --days 7`
 
+Flyers never show the broadcaster/streaming brand; `channel` is kept in the data for reference only.
+
 Participants (teams, countries, fighters) live in `src/data/events/participants.json`; an event points at two of them with `"matchup": ["left-slug", "right-slug"]`. To use an official/licensed image instead of the downloaded one, drop it in `flyers/assets/custom/<slug>.png|svg|jpg` — custom always wins.
 
 **Rights:** team/league logos are trademarks and agency photos are copyrighted. Check credits.json and the source pages before posting commercially, and prefer club-provided media kits when you can get them.

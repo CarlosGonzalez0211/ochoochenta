@@ -166,7 +166,7 @@ ${hero(A, va, 'L')}${hero(B, vb, 'R')}
 ${name(A, va, 'L')}${name(B, vb, 'R')}
 <div class="info">
   <div class="when"><div class="day"><span class="wd">${esc(fmtWeekday(event.kickoff))}</span><span class="dt">${esc(fmtDate(event.kickoff))}</span></div><div><span class="time">${esc(fmtTime(event.kickoff))}</span></div></div>
-  ${event.channel ? `<div class="chan">En vivo en Ocho 80 · <b>${esc(event.channel)}</b></div>` : '<div class="chan">En vivo en Ocho 80</div>'}
+  <div class="chan">En vivo en Ocho 80</div>
   ${promo ? `<div class="ribbon">${esc(promo)}</div>` : ''}
 </div>
 ${FOOTER()}`
@@ -188,7 +188,7 @@ function titleFlyer(event, promo, size) {
   return page(size, css, `<div class="layer bg"></div><div class="layer wood"></div><div class="layer vignette"></div>
 <div class="top">${LOGO()}<span class="label">${esc(event.league)}</span></div>
 <div class="mid"><h1 class="rye t">${esc(t)}</h1></div>
-<div class="info"><span class="wd">${esc(fmtWeekday(event.kickoff))} · ${esc(fmtDate(event.kickoff))}</span><span class="time">${esc(fmtTime(event.kickoff))}</span>${event.channel ? `<span class="label">${esc(event.channel)}</span>` : ''}${promo ? `<div class="ribbon">${esc(promo)}</div>` : ''}</div>${FOOTER()}`)
+<div class="info"><span class="wd">${esc(fmtWeekday(event.kickoff))} · ${esc(fmtDate(event.kickoff))}</span><span class="time">${esc(fmtTime(event.kickoff))}</span>${promo ? `<div class="ribbon">${esc(promo)}</div>` : ''}</div>${FOOTER()}`)
 }
 
 // ---------- weekly roundup ("Esta semana") ----------
@@ -236,7 +236,7 @@ export function roundupFlyer(events, { rangeLabel, promoFor, pageLabel = '', las
     return `<div class="row${e.featured ? ' feat' : ''}">
   <div class="when"><div class="d">${esc(fmtShortDay(e.kickoff))}</div><div class="t">${esc(fmtTime(e.kickoff))}</div></div>
   ${A && B ? `<div class="pair">${chip(A)}${chip(B)}</div>` : ''}
-  <div class="mid"><div class="n">${nm}</div><div class="m">${esc(e.league)}${e.channel ? ` · ${esc(e.channel)}` : ''}${promo ? ` · <span class="p">${esc(promo)}</span>` : ''}</div></div>
+  <div class="mid"><div class="n">${nm}</div><div class="m">${esc(e.league)}${promo ? ` · <span class="p">${esc(promo)}</span>` : ''}</div></div>
 </div>`
   }).join('')
   const more = events.length - shown.length
