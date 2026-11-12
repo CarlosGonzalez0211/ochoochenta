@@ -2,8 +2,8 @@
 //
 // Design system (keep it tight):
 //   Fonts:  Rye (brand display, matches the logo) for names + "VS" only; Chakra Petch for everything else.
-//   Color:  each side of a matchup takes its team's colors; Ocho 80 owns the frame — ink black, ember red, brass, bone.
-//   Brand:  logo top-center, brass frame, ember seam, footer strip. The teams are the hero; Ocho 80 is the host.
+//   Color:  each side of a matchup takes its team's colors; Ocho 80 owns the frame — ink black, ember red, platinum silver (matches the logo's ribbon), bone.
+//   Brand:  logo top-center, silver frame, ember seam, footer strip. The teams are the hero; Ocho 80 is the host.
 import { existsSync, readdirSync } from 'node:fs'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 import { CONTACT } from '../../src/data/contact.js'
@@ -49,18 +49,18 @@ const CSS = ({ w, h }) => `
 @font-face{font-family:Rye;src:url(${font('rye', 'rye-latin-400-normal.woff2')})}
 @font-face{font-family:Chakra;font-weight:600;src:url(${font('chakra-petch', 'chakra-petch-latin-600-normal.woff2')})}
 @font-face{font-family:Chakra;font-weight:700;src:url(${font('chakra-petch', 'chakra-petch-latin-700-normal.woff2')})}
-:root{--ink:#0a0706;--ember:#d3141c;--ember-hot:#f0262e;--bone:#efe6d4;--bone-dim:#b9ad98;--brass:#d9a24a}
+:root{--ink:#0a0706;--ember:#d3141c;--ember-hot:#f0262e;--bone:#eeeeec;--bone-dim:#a8adb4;--silver:#c9cdd3;--silver-hi:#f4f6f8;--silver-lo:#8f959d;--metal:linear-gradient(180deg,#f7f9fb 0%,#d3d7dc 46%,#9ba1a9 54%,#e3e6ea 100%)}
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{width:${w}px;height:${h}px;background:var(--ink);color:var(--bone);font-family:Chakra,sans-serif;font-weight:600;overflow:hidden}
 .flyer{position:relative;width:${w}px;height:${h}px;overflow:hidden;isolation:isolate}
 .layer{position:absolute;inset:0}
 .wood{background:url(${url('public/img/wood-wall.webp')}) center/900px;mix-blend-mode:overlay;opacity:.35;z-index:3;pointer-events:none}
 .vignette{z-index:4;background:radial-gradient(120% 75% at 50% 45%,transparent 40%,rgba(5,3,2,.85) 100%),linear-gradient(180deg,rgba(5,3,2,.55),transparent 22%,transparent 55%,rgba(5,3,2,.97) 82%)}
-.frame{position:absolute;inset:22px;z-index:20;border:3px solid var(--brass);border-radius:30px;box-shadow:inset 0 0 0 7px rgba(10,7,6,.6),inset 0 0 0 8px rgba(239,230,212,.18);pointer-events:none}
+.frame{position:absolute;inset:22px;z-index:20;border:3px solid var(--silver);border-radius:30px;box-shadow:inset 0 0 0 7px rgba(10,7,6,.6),inset 0 0 0 8px rgba(244,246,248,.22),0 0 18px rgba(201,205,211,.18);pointer-events:none}
 .top{position:absolute;z-index:10;top:52px;left:0;right:0;display:flex;flex-direction:column;align-items:center;gap:14px}
 .logo{height:118px;filter:drop-shadow(0 6px 20px rgba(0,0,0,.9))}
 .label{font-weight:700;font-size:25px;letter-spacing:.32em;text-transform:uppercase;color:var(--bone);text-shadow:0 2px 10px #000}
-.label .dot{color:var(--brass);margin:0 .5em}
+.label .dot{color:var(--silver);margin:0 .5em}
 .tag{display:inline-flex;align-items:center;gap:10px;background:var(--ember);color:#fff;font-weight:700;font-size:21px;letter-spacing:.24em;padding:7px 20px;border-radius:999px;text-transform:uppercase;box-shadow:0 6px 20px rgba(0,0,0,.6)}
 .star{width:.95em;height:.95em;fill:currentColor}
 .rye{font-family:Rye,Georgia,serif;font-weight:400;text-transform:uppercase}
@@ -175,12 +175,12 @@ export function eventFlyer(event, promo, size = 'feed') {
 .nm{font-size:${fighters ? 72 : 62}px;line-height:1;color:var(--bone);text-shadow:0 4px 0 rgba(0,0,0,.6),0 8px 30px rgba(0,0,0,.95);white-space:nowrap}
 .badge{flex:none;height:42px;border-radius:6px;box-shadow:0 4px 12px rgba(0,0,0,.7);border:2px solid rgba(239,230,212,.7)}
 .info{position:absolute;z-index:10;left:0;right:0;top:${infoTop}px;display:flex;flex-direction:column;align-items:center;gap:${story ? 22 : 14}px}
-.when{display:flex;align-items:stretch;background:rgba(10,7,6,.82);border:2px solid rgba(217,162,74,.6);border-radius:22px;box-shadow:0 20px 50px rgba(0,0,0,.7);overflow:hidden}
+.when{display:flex;align-items:stretch;background:rgba(10,7,6,.82);border:2px solid rgba(201,205,211,.6);border-radius:22px;box-shadow:0 20px 50px rgba(0,0,0,.7);overflow:hidden}
 .when > div{padding:${story ? '20px 36px' : '16px 30px'};display:flex;flex-direction:column;justify-content:center}
-.day{border-right:2px solid rgba(217,162,74,.45);text-align:right}
+.day{border-right:2px solid rgba(201,205,211,.45);text-align:right}
 .wd{font-weight:700;font-size:${story ? 34 : 30}px;letter-spacing:.2em;text-transform:uppercase;color:var(--bone)}
 .dt{font-weight:600;font-size:${story ? 26 : 23}px;letter-spacing:.16em;text-transform:uppercase;color:var(--bone-dim)}
-.time{font-weight:700;font-size:${story ? 96 : 84}px;line-height:1;color:var(--brass)}
+.time{font-weight:700;font-size:${story ? 96 : 84}px;line-height:1;color:var(--silver);background:var(--metal);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
 .chan{font-weight:700;font-size:22px;letter-spacing:.24em;text-transform:uppercase;color:var(--bone-dim)}
 .chan b{color:var(--bone)}
 `
@@ -213,7 +213,7 @@ function titleFlyer(event, promo, size) {
 .t{font-size:${fs}px;line-height:1.02;text-shadow:0 6px 0 rgba(0,0,0,.5),0 10px 40px #000}
 .info{position:absolute;z-index:10;left:0;right:0;top:${story ? 1240 : 900}px;display:flex;flex-direction:column;align-items:center;gap:14px}
 .wd{font-weight:700;font-size:34px;letter-spacing:.22em;text-transform:uppercase}
-.time{font-weight:700;font-size:110px;line-height:1;color:var(--brass)}`
+.time{font-weight:700;font-size:110px;line-height:1;color:var(--silver);background:var(--metal);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}`
   return page(size, css, `<div class="layer bg"></div><div class="layer wood"></div><div class="layer vignette"></div>
 <div class="top">${LOGO()}<span class="label">${esc(event.league)}</span></div>
 <div class="mid"><h1 class="rye t">${esc(t)}</h1></div>
@@ -238,13 +238,13 @@ export function roundupFlyer(events, { rangeLabel, promoFor, pageLabel = '', las
 .bg{z-index:0;background:radial-gradient(80% 45% at 50% 18%,rgba(211,20,28,.5),transparent 70%),linear-gradient(180deg,#1a0c09,#0a0706)}
 .head{position:absolute;z-index:10;top:50px;left:0;right:0;display:flex;flex-direction:column;align-items:center;gap:10px}
 .h1{font-size:${story ? 112 : 92}px;line-height:1;margin-top:8px;text-shadow:5px 5px 0 var(--ember),0 10px 40px rgba(0,0,0,.9);-webkit-text-stroke:2px #0a0706}
-.range{font-weight:700;font-size:25px;letter-spacing:.3em;text-transform:uppercase;color:var(--brass)}
+.range{font-weight:700;font-size:25px;letter-spacing:.3em;text-transform:uppercase;color:var(--silver)}
 .list{position:absolute;z-index:10;left:60px;right:60px;top:${story ? 470 : 395}px;display:flex;flex-direction:column;gap:${story ? 22 : shown.length > 5 ? 12 : 16}px}
 .row{height:${rowH}px;display:flex;align-items:center;gap:22px;padding:0 24px;border-radius:22px;background:linear-gradient(90deg,rgba(28,18,16,.94),rgba(12,8,7,.94));border:2px solid rgba(239,230,212,.12);box-shadow:0 14px 34px rgba(0,0,0,.55)}
-.row.feat{border-color:rgba(217,162,74,.75)}
+.row.feat{border-color:rgba(201,205,211,.8);box-shadow:0 14px 34px rgba(0,0,0,.55),0 0 16px rgba(201,205,211,.16)}
 .when{width:178px;flex:none;text-align:center;white-space:nowrap}
 .d{font-weight:700;font-size:22px;letter-spacing:.16em;text-transform:uppercase;color:var(--bone-dim)}
-.t{font-weight:700;font-size:42px;line-height:1.05;color:var(--brass)}
+.t{font-weight:700;font-size:42px;line-height:1.05;color:var(--silver);background:var(--metal);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
 .pair{flex:none;display:flex;align-items:center;gap:8px}
 .chip{width:${rowH - 40}px;height:${rowH - 40}px;border-radius:50%;overflow:hidden;display:grid;place-items:center;border:3px solid rgba(239,230,212,.85);background:#222;box-shadow:0 6px 16px rgba(0,0,0,.6)}
 .chip.logo{border:none;background:transparent;box-shadow:none;border-radius:0}
@@ -257,7 +257,7 @@ export function roundupFlyer(events, { rangeLabel, promoFor, pageLabel = '', las
 .m{margin-top:6px;font-weight:600;font-size:19px;letter-spacing:.14em;text-transform:uppercase;color:var(--bone-dim);white-space:nowrap}
 .m .p{color:var(--ember-hot)}
 .cta{position:absolute;z-index:10;left:0;right:0;bottom:${story ? 150 : 108}px;text-align:center;font-weight:700;font-size:24px;letter-spacing:.3em;text-transform:uppercase;color:var(--bone)}
-.cta span{color:var(--brass)}`
+.cta span{color:var(--silver)}`
   const rows = shown.map((e) => {
     const [A, B] = e.sides ?? []
     const promo = promoFor(e)
