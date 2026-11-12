@@ -40,10 +40,14 @@ for slug, p in people.items():
     if not src:
         print(f"- {slug}: no photo")
         continue
-    session = session or new_session("u2net_human_seg")
-    img = Image.open(src).convert("RGB")
-    img.thumbnail((1400, 1400))
-    cut = remove(img, session=session, post_process_mask=True)
+    raw = Image.open(src)
+    if raw.mode == "RGBA" and raw.getchannel("A").getextrema()[0] < 10:
+        cut = raw  # already a transparent cutout (e.g. an official athlete render): keep it as is
+    else:
+        session = session or new_session("u2net_human_seg")
+        img = raw.convert("RGB")
+        img.thumbnail((1400, 1400))
+        cut = remove(img, session=session, post_process_mask=True)
     cut = keep_largest(cut)
     bbox = cut.getbbox()
     if bbox:
