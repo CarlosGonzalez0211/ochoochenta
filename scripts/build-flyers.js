@@ -85,7 +85,8 @@ if (week.length) {
   const rangeLabel = `${fmtDate(new Date(now).toISOString())} – ${fmtDate(new Date(end).toISOString())}`
   // 6 games per cover; a busy week gets 00a, 00b… so every game is listed
   const pages = []
-  for (let i = 0; i < week.length; i += 6) pages.push(week.slice(i, i + 6))
+  const perPage = Math.ceil(week.length / Math.ceil(week.length / 6)) // balanced: 10 games -> 5 + 5, not 6 + 4
+  for (let i = 0; i < week.length; i += perPage) pages.push(week.slice(i, i + perPage))
   for (const [i, chunk] of pages.entries()) {
     const suffix = pages.length > 1 ? String.fromCharCode(97 + i) : ''
     const pageLabel = pages.length > 1 ? `${i + 1}/${pages.length}` : ''

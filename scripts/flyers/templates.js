@@ -71,7 +71,35 @@ html,body{width:${w}px;height:${h}px;background:var(--ink);color:var(--bone);fon
 const STAR = '<svg class="star" viewBox="0 0 24 24"><path d="m12 2.6 2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4l-5.9 3.2 1.2-6.5L2.5 9.5l6.6-.9L12 2.6Z"/></svg>'
 const LOGO = () => `<img class="logo" src="${url('public/img/logo.png')}" alt="Ocho 80">`
 const FOOTER = () => `<div class="footer"><span><b>Ocho 80</b> · Av. Gómez Morín #680</span><span>${esc(CONTACT.phone)}</span><span>@${esc(CONTACT.instagram)}</span></div>`
-const page = (size, css, body) => `<!doctype html><html lang="es"><head><meta charset="utf-8"><style>${CSS(SIZES[size])}${css}</style></head><body><div class="flyer">${body}<div class="frame"></div></div></body></html>`
+// Shrinks any [data-fit] text until it fits its container, so long names never collide with flags or run off the flyer.
+const FIT = `<script>
+document.fonts.ready.then(function () {
+  // Equalise logo weight: wide logos (Patriots, Chargers) and tall ones get the same visual area, within the column.
+  document.querySelectorAll('.mark img').forEach(function (img) {
+    function size() {
+      var box = img.parentElement.clientWidth, r = img.naturalWidth / img.naturalHeight;
+      if (!r) return;
+      var area = box * box * 0.85, w = Math.sqrt(area * r), h = Math.sqrt(area / r);
+      var k = Math.min(1, (box * 0.9) / w, (box * 1.1) / h);
+      img.style.width = Math.round(w * k) + 'px'; img.style.height = Math.round(h * k) + 'px'; img.style.maxWidth = 'none'; img.style.maxHeight = 'none';
+    }
+    if (img.complete) size(); else img.addEventListener('load', size);
+  });
+  document.querySelectorAll('[data-fit]').forEach(function (box) {
+    var target = box.querySelector('[data-fit-text]');
+    var el = target || box;
+    var size = parseFloat(getComputedStyle(el).fontSize);
+    function tooWide() {
+      if (!target) return box.scrollWidth > box.clientWidth + 1; // plain block: its own text overflows
+      var gap = parseFloat(getComputedStyle(box).columnGap) || 0, used = gap * (box.children.length - 1);
+      for (var i = 0; i < box.children.length; i++) used += box.children[i].getBoundingClientRect().width;
+      return used > box.clientWidth - 8; // flex row: flag + name must fit with a margin
+    }
+    for (var n = 0; tooWide() && size > 14 && n < 80; n++) { size -= 2; el.style.fontSize = size + 'px'; }
+  });
+});
+</script>`
+const page = (size, css, body) => `<!doctype html><html lang="es"><head><meta charset="utf-8"><style>${CSS(SIZES[size])}${css}</style></head><body><div class="flyer">${body}<div class="frame"></div></div>${FIT}</body></html>`
 
 const initials = (p) => (p?.short ?? '?').slice(0, 2)
 
@@ -92,7 +120,7 @@ export function eventFlyer(event, promo, size = 'feed') {
   const seamTop = 56, seamBottom = 44 // % of width where the diagonal crosses top/bottom
   const midY = story ? 0.46 : 0.47
   const markSize = story ? 350 : 320
-  const vsSize = story ? 210 : 190
+  const vsSize = story ? 190 : 172
 
   const sideBg = (p, v, side) => {
     const [c1, c2] = p.colors ?? ['#333', '#111']
@@ -111,11 +139,12 @@ export function eventFlyer(event, promo, size = 'feed') {
     return `<div class="mark mark-${side}"><div class="mono rye" style="background:${p.colors?.[0] ?? '#333'}">${esc(initials(p))}</div></div>`
   }
 
-  const name = (p, v, side) => `<div class="name name-${side}">
-    ${v.flag && p.kind === 'fighter' ? `<img class="badge" src="${v.flag}" alt="">` : ''}
-    <span class="rye nm">${esc(p.short ?? p.name.es)}</span></div>`
+  const name = (p, v, side) => `<div class="name name-${side}" data-fit>
+    ${v.flag && p.kind === 'fighter' && side === 'L' ? `<img class="badge" src="${v.flag}" alt="">` : ''}
+    <span class="rye nm" data-fit-text>${esc(p.short ?? p.name.es)}</span>
+    ${v.flag && p.kind === 'fighter' && side === 'R' ? `<img class="badge" src="${v.flag}" alt="">` : ''}</div>`
 
-  const cx = (side) => (side === 'L' ? 0.22 : 0.78) * w
+  const cx = (side) => (side === 'L' ? 0.24 : 0.76) * w
   const cy = midY * h
   const nameY = cy + markSize / 2 + (story ? 70 : 30)
   const infoTop = story ? 1430 : 990
@@ -140,11 +169,11 @@ export function eventFlyer(event, promo, size = 'feed') {
 .cut-R{-webkit-mask-image:linear-gradient(180deg,#000 72%,transparent 98%),linear-gradient(90deg,transparent 0%,#000 22%);right:${story ? -40 : -30}px;max-width:${w * 0.62}px;object-fit:contain;object-position:bottom right}
 .vs{position:absolute;z-index:8;left:50%;top:${fighters ? (story ? 0.36 : 0.40) * h : cy}px;transform:translate(-50%,-50%);font-size:${vsSize}px;line-height:1;color:var(--bone);
   text-shadow:0 0 0 #000,6px 6px 0 var(--ember),0 0 60px rgba(240,38,46,.75),0 10px 40px rgba(0,0,0,.9);-webkit-text-stroke:3px #0a0706}
-.name{position:absolute;z-index:9;top:${fighters ? infoTop - 120 : nameY}px;width:${w * 0.46}px;display:flex;align-items:center;justify-content:center;gap:14px}
-.name-L{left:${fighters ? 40 : cx('L') - w * 0.23}px;${fighters ? 'justify-content:flex-start;' : ''}}
-.name-R{left:${fighters ? w - 40 - w * 0.46 : cx('R') - w * 0.23}px;${fighters ? 'justify-content:flex-end;' : ''}}
+.name{position:absolute;z-index:9;top:${fighters ? infoTop - 120 : nameY}px;width:${w * (fighters ? 0.46 : 0.4)}px;padding:0 4px;overflow:hidden;display:flex;align-items:center;justify-content:center;gap:14px}
+.name-L{left:${fighters ? 40 : cx('L') - w * 0.2}px;${fighters ? 'justify-content:flex-start;' : ''}}
+.name-R{left:${fighters ? w - 40 - w * 0.46 : cx('R') - w * 0.2}px;${fighters ? 'justify-content:flex-end;' : ''}}
 .nm{font-size:${fighters ? 72 : 62}px;line-height:1;color:var(--bone);text-shadow:0 4px 0 rgba(0,0,0,.6),0 8px 30px rgba(0,0,0,.95);white-space:nowrap}
-.badge{height:42px;border-radius:6px;box-shadow:0 4px 12px rgba(0,0,0,.7);border:2px solid rgba(239,230,212,.7)}
+.badge{flex:none;height:42px;border-radius:6px;box-shadow:0 4px 12px rgba(0,0,0,.7);border:2px solid rgba(239,230,212,.7)}
 .info{position:absolute;z-index:10;left:0;right:0;top:${infoTop}px;display:flex;flex-direction:column;align-items:center;gap:${story ? 22 : 14}px}
 .when{display:flex;align-items:stretch;background:rgba(10,7,6,.82);border:2px solid rgba(217,162,74,.6);border-radius:22px;box-shadow:0 20px 50px rgba(0,0,0,.7);overflow:hidden}
 .when > div{padding:${story ? '20px 36px' : '16px 30px'};display:flex;flex-direction:column;justify-content:center}
@@ -224,8 +253,8 @@ export function roundupFlyer(events, { rangeLabel, promoFor, pageLabel = '', las
 .chip.mono{font-size:34px;color:var(--bone)}
 .v{font-family:Rye,serif;font-size:24px;color:var(--ember-hot)}
 .mid{flex:1;min-width:0}
-.n{font-family:Rye,serif;font-size:${story ? 36 : 32}px;line-height:1.05;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.m{margin-top:6px;font-weight:600;font-size:19px;letter-spacing:.14em;text-transform:uppercase;color:var(--bone-dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.n{font-family:Rye,serif;font-size:${story ? 36 : 32}px;line-height:1.05;text-transform:uppercase;white-space:nowrap}
+.m{margin-top:6px;font-weight:600;font-size:19px;letter-spacing:.14em;text-transform:uppercase;color:var(--bone-dim);white-space:nowrap}
 .m .p{color:var(--ember-hot)}
 .cta{position:absolute;z-index:10;left:0;right:0;bottom:${story ? 150 : 108}px;text-align:center;font-weight:700;font-size:24px;letter-spacing:.3em;text-transform:uppercase;color:var(--bone)}
 .cta span{color:var(--brass)}`
@@ -236,7 +265,7 @@ export function roundupFlyer(events, { rangeLabel, promoFor, pageLabel = '', las
     return `<div class="row${e.featured ? ' feat' : ''}">
   <div class="when"><div class="d">${esc(fmtShortDay(e.kickoff))}</div><div class="t">${esc(fmtTime(e.kickoff))}</div></div>
   ${A && B ? `<div class="pair">${chip(A)}${chip(B)}</div>` : ''}
-  <div class="mid"><div class="n">${nm}</div><div class="m">${esc(e.league)}${promo ? ` · <span class="p">${esc(promo)}</span>` : ''}</div></div>
+  <div class="mid"><div class="n" data-fit>${nm}</div><div class="m" data-fit>${esc(e.league)}${promo ? ` · <span class="p">${esc(promo)}</span>` : ''}</div></div>
 </div>`
   }).join('')
   const more = events.length - shown.length
