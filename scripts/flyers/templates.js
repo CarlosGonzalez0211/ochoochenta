@@ -58,7 +58,7 @@ html,body{width:${w}px;height:${h}px;background:var(--ink);color:var(--bone);fon
 .vignette{z-index:4;background:radial-gradient(120% 75% at 50% 45%,transparent 40%,rgba(5,3,2,.85) 100%),linear-gradient(180deg,rgba(5,3,2,.55),transparent 22%,transparent 55%,rgba(5,3,2,.97) 82%)}
 .frame{position:absolute;inset:22px;z-index:20;border:3px solid var(--silver);border-radius:30px;box-shadow:inset 0 0 0 7px rgba(10,7,6,.6),inset 0 0 0 8px rgba(244,246,248,.22),0 0 18px rgba(201,205,211,.18);pointer-events:none}
 .top{position:absolute;z-index:10;top:52px;left:0;right:0;display:flex;flex-direction:column;align-items:center;gap:14px}
-.logo{height:118px;filter:drop-shadow(0 6px 20px rgba(0,0,0,.9))}
+.logo{height:${h > 1500 ? 250 : 186}px;filter:drop-shadow(0 6px 20px rgba(0,0,0,.9))}
 .label{font-weight:700;font-size:25px;letter-spacing:.32em;text-transform:uppercase;color:var(--bone);text-shadow:0 2px 10px #000}
 .label .dot{color:var(--silver);margin:0 .5em}
 .tag{display:inline-flex;align-items:center;gap:10px;background:var(--ember);color:#fff;font-weight:700;font-size:21px;letter-spacing:.24em;padding:7px 20px;border-radius:999px;text-transform:uppercase;box-shadow:0 6px 20px rgba(0,0,0,.6)}
@@ -119,6 +119,7 @@ export function eventFlyer(event, promo, size = 'feed') {
   // geometry
   const seamTop = 56, seamBottom = 44 // % of width where the diagonal crosses top/bottom
   const midY = story ? 0.46 : 0.47
+  const D = story ? 100 : 62 // extra room taken by the larger logo
   const markSize = story ? 350 : 320
   const vsSize = story ? 190 : 172
 
@@ -145,10 +146,10 @@ export function eventFlyer(event, promo, size = 'feed') {
     ${v.flag && p.kind === 'fighter' && side === 'R' ? `<img class="badge" src="${v.flag}" alt="">` : ''}</div>`
 
   const cx = (side) => (side === 'L' ? 0.24 : 0.76) * w
-  const cy = midY * h
+  const cy = midY * h + D
   const nameY = cy + markSize / 2 + (story ? 70 : 30)
-  const infoTop = story ? 1430 : 990
-  const cutH = story ? 1000 : 690
+  const infoTop = (story ? 1430 : 990) + D * 0.8
+  const cutH = story ? 960 : 640
 
   const css = `
 .side{position:absolute;inset:0;z-index:0;overflow:hidden}
@@ -167,7 +168,7 @@ export function eventFlyer(event, promo, size = 'feed') {
 .cut{position:absolute;z-index:5;height:${cutH}px;bottom:${h - infoTop + 30}px;filter:drop-shadow(0 20px 40px rgba(0,0,0,.8));-webkit-mask-composite:source-in;mask-composite:intersect}
 .cut-L{-webkit-mask-image:linear-gradient(180deg,#000 72%,transparent 98%),linear-gradient(270deg,transparent 0%,#000 22%);left:${story ? -40 : -30}px;max-width:${w * 0.62}px;object-fit:contain;object-position:bottom left}
 .cut-R{-webkit-mask-image:linear-gradient(180deg,#000 72%,transparent 98%),linear-gradient(90deg,transparent 0%,#000 22%);right:${story ? -40 : -30}px;max-width:${w * 0.62}px;object-fit:contain;object-position:bottom right}
-.vs{position:absolute;z-index:8;left:50%;top:${fighters ? (story ? 0.36 : 0.40) * h : cy}px;transform:translate(-50%,-50%);font-size:${vsSize}px;line-height:1;color:var(--bone);
+.vs{position:absolute;z-index:8;left:50%;top:${fighters ? (story ? 0.36 : 0.40) * h + D : cy}px;transform:translate(-50%,-50%);font-size:${vsSize}px;line-height:1;color:var(--bone);
   text-shadow:0 0 0 #000,6px 6px 0 var(--ember),0 0 60px rgba(240,38,46,.75),0 10px 40px rgba(0,0,0,.9);-webkit-text-stroke:3px #0a0706}
 .name{position:absolute;z-index:9;top:${fighters ? infoTop - 120 : nameY}px;width:${w * (fighters ? 0.46 : 0.4)}px;padding:0 4px;overflow:hidden;display:flex;align-items:center;justify-content:center;gap:14px}
 .name-L{left:${fighters ? 40 : cx('L') - w * 0.2}px;${fighters ? 'justify-content:flex-start;' : ''}}
@@ -209,9 +210,9 @@ function titleFlyer(event, promo, size) {
   const fs = t.length < 16 ? 130 : t.length < 28 ? 100 : 78
   const css = `
 .bg{z-index:0;background:radial-gradient(70% 50% at 50% 42%,rgba(211,20,28,.55),transparent 70%),#140a08}
-.mid{position:absolute;z-index:10;left:70px;right:70px;top:${story ? 520 : 360}px;text-align:center}
+.mid{position:absolute;z-index:10;left:70px;right:70px;top:${story ? 640 : 440}px;text-align:center}
 .t{font-size:${fs}px;line-height:1.02;text-shadow:0 6px 0 rgba(0,0,0,.5),0 10px 40px #000}
-.info{position:absolute;z-index:10;left:0;right:0;top:${story ? 1240 : 900}px;display:flex;flex-direction:column;align-items:center;gap:14px}
+.info{position:absolute;z-index:10;left:0;right:0;top:${story ? 1360 : 990}px;display:flex;flex-direction:column;align-items:center;gap:14px}
 .wd{font-weight:700;font-size:34px;letter-spacing:.22em;text-transform:uppercase}
 .time{font-weight:700;font-size:110px;line-height:1;color:var(--silver);background:var(--metal);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}`
   return page(size, css, `<div class="layer bg"></div><div class="layer wood"></div><div class="layer vignette"></div>
@@ -236,10 +237,10 @@ export function roundupFlyer(events, { rangeLabel, promoFor, pageLabel = '', las
   }
   const css = `
 .bg{z-index:0;background:radial-gradient(80% 45% at 50% 18%,rgba(211,20,28,.5),transparent 70%),linear-gradient(180deg,#1a0c09,#0a0706)}
-.head{position:absolute;z-index:10;top:50px;left:0;right:0;display:flex;flex-direction:column;align-items:center;gap:10px}
-.h1{font-size:${story ? 112 : 92}px;line-height:1;margin-top:8px;text-shadow:5px 5px 0 var(--ember),0 10px 40px rgba(0,0,0,.9);-webkit-text-stroke:2px #0a0706}
+.head{position:absolute;z-index:10;top:44px;left:0;right:0;display:flex;flex-direction:column;align-items:center;gap:10px}
+.h1{font-size:${story ? 112 : 84}px;line-height:1;margin-top:2px;text-shadow:5px 5px 0 var(--ember),0 10px 40px rgba(0,0,0,.9);-webkit-text-stroke:2px #0a0706}
 .range{font-weight:700;font-size:25px;letter-spacing:.3em;text-transform:uppercase;color:var(--silver)}
-.list{position:absolute;z-index:10;left:60px;right:60px;top:${story ? 470 : 395}px;display:flex;flex-direction:column;gap:${story ? 22 : shown.length > 5 ? 12 : 16}px}
+.list{position:absolute;z-index:10;left:60px;right:60px;top:${story ? 560 : 430}px;display:flex;flex-direction:column;gap:${story ? 22 : shown.length > 5 ? 10 : 16}px}
 .row{height:${rowH}px;display:flex;align-items:center;gap:22px;padding:0 24px;border-radius:22px;background:linear-gradient(90deg,rgba(28,18,16,.94),rgba(12,8,7,.94));border:2px solid rgba(239,230,212,.12);box-shadow:0 14px 34px rgba(0,0,0,.55)}
 .row.feat{border-color:rgba(201,205,211,.8);box-shadow:0 14px 34px rgba(0,0,0,.55),0 0 16px rgba(201,205,211,.16)}
 .when{width:178px;flex:none;text-align:center;white-space:nowrap}
@@ -256,7 +257,7 @@ export function roundupFlyer(events, { rangeLabel, promoFor, pageLabel = '', las
 .n{font-family:Rye,serif;font-size:${story ? 36 : 32}px;line-height:1.05;text-transform:uppercase;white-space:nowrap}
 .m{margin-top:6px;font-weight:600;font-size:19px;letter-spacing:.14em;text-transform:uppercase;color:var(--bone-dim);white-space:nowrap}
 .m .p{color:var(--ember-hot)}
-.cta{position:absolute;z-index:10;left:0;right:0;bottom:${story ? 150 : 108}px;text-align:center;font-weight:700;font-size:24px;letter-spacing:.3em;text-transform:uppercase;color:var(--bone)}
+.cta{position:absolute;z-index:10;left:0;right:0;bottom:${story ? 150 : 100}px;text-align:center;font-weight:700;font-size:24px;letter-spacing:.3em;text-transform:uppercase;color:var(--bone)}
 .cta span{color:var(--silver)}`
   const rows = shown.map((e) => {
     const [A, B] = e.sides ?? []
