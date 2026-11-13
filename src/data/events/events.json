@@ -37,7 +37,23 @@
     ],
     "kickoff": "2026-11-14T21:00:00-05:00",
     "channel": "",
-    "verified": false
+    "verified": false,
+    "stats": {
+      "asOf": "2026-11-13",
+      "enteringGame": true,
+      "source": "https://www.cbssports.com/ufc/news/ufc-334-fight-card-ciryl-gane-josh-hokit-date-odds-location/",
+      "sides": [
+        {
+          "record": "14-2",
+          "rank": "Campeón HW"
+        },
+        {
+          "record": "10-0",
+          "rank": "#10 HW"
+        }
+      ],
+      "notes": "Hokit's #10 comes from a single Tapology listing; verify on ufc.com/rankings."
+    }
   },
   {
     "featured": false,
@@ -57,7 +73,21 @@
     ],
     "kickoff": "2026-11-15T20:20:00-05:00",
     "channel": "NBC",
-    "verified": false
+    "verified": false,
+    "stats": {
+      "asOf": "2026-11-13",
+      "enteringGame": true,
+      "source": "https://bleacherreport.com/articles/25530814-nfl-playoff-bracket-picture-2026-27-and-afc-nfc-standings-after-week-9-snf",
+      "sides": [
+        {
+          "record": "6-2"
+        },
+        {
+          "record": "6-2"
+        }
+      ],
+      "notes": "One standings site lists the Bengals at 5-2; Bleacher Report and StatMuse say 6-2."
+    }
   },
   {
     "featured": true,
@@ -117,7 +147,23 @@
     ],
     "kickoff": "2026-11-20T21:00:00-06:00",
     "channel": "",
-    "verified": false
+    "verified": false,
+    "stats": {
+      "asOf": "2026-11-09",
+      "enteringGame": true,
+      "source": "https://www.foxsports.com.mx/2026/11/08/chivas-dejo-ir-el-liderato-cruz-azul-esta-en-la-cima-liga-mx-tabla-general-de-posiciones-tras-la-jornada-16-del-torneo-apertura-2026/",
+      "sides": [
+        {
+          "record": "11 pts",
+          "rank": "18.º lugar"
+        },
+        {
+          "record": "27 pts",
+          "rank": "5.º lugar"
+        }
+      ],
+      "notes": "Table after Jornada 16; this match is Jornada 17, so these are the points each team brings in."
+    }
   },
   {
     "featured": false,
@@ -137,7 +183,22 @@
     ],
     "kickoff": "2026-11-21T17:00:00-05:00",
     "channel": "",
-    "verified": false
+    "verified": false,
+    "stats": {
+      "asOf": "2026-11-13",
+      "enteringGame": true,
+      "source": "https://kalshi.com/ufc/fighters/jiri-prochazka",
+      "sides": [
+        {
+          "record": "32-6-1",
+          "rank": "#3 LHW"
+        },
+        {
+          "record": "11-0"
+        }
+      ],
+      "notes": "Rankings conflict across sources (Procházka #2/#3, Stirling #5/#6/#7), so Stirling's rank is left out until ufc.com is checked."
+    }
   },
   {
     "featured": false,
@@ -317,6 +378,21 @@
     ],
     "kickoff": "2026-12-12T21:00:00-05:00",
     "channel": "",
-    "verified": false
+    "verified": false,
+    "stats": {
+      "asOf": "2026-11-13",
+      "enteringGame": true,
+      "source": "https://next-fight.com/en/fighter/charles-oliveira",
+      "sides": [
+        {
+          "record": "37-11 (1 NC)",
+          "rank": "#3 LW"
+        },
+        {
+          "record": "28-8"
+        }
+      ],
+      "notes": "Lopes is 27-8 on UFC Stats and 28-8 on Tapology/Sherdog; his lightweight rank was inconsistent, so it is left out."
+    }
   }
 ]

@@ -16,7 +16,21 @@
     "featured": false,
     "promoId": "football",
     "source": "https://www.nfl.com/schedules/2026/by-week/week-10",
-    "notes": "Both 6-2, division lead at stake."
+    "notes": "Both 6-2, division lead at stake.",
+    "stats": {
+      "asOf": "2026-11-13",
+      "enteringGame": true,
+      "source": "https://bleacherreport.com/articles/25530814-nfl-playoff-bracket-picture-2026-27-and-afc-nfc-standings-after-week-9-snf",
+      "sides": [
+        {
+          "record": "6-2"
+        },
+        {
+          "record": "6-2"
+        }
+      ],
+      "notes": "One standings site lists the Bengals at 5-2; Bleacher Report and StatMuse say 6-2."
+    }
   },
   {
     "id": "2026-11-19-nfl-colts-texans-tnf",

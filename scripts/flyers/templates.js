@@ -158,10 +158,14 @@ export function eventFlyer(event, promo, size = 'feed') {
     return `<div class="mark mark-${side}"><div class="mono rye" style="background:${p.colors?.[0] ?? '#333'}">${esc(initials(p))}</div></div>`
   }
 
-  const name = (p, v, side) => `<div class="name name-${side}" data-fit>
-    ${v.flag && p.kind === 'fighter' && side === 'L' ? `<img class="badge" src="${v.flag}" alt="">` : ''}
-    <span class="rye nm" data-fit-text>${esc(p.short ?? p.name.es)}</span>
-    ${v.flag && p.kind === 'fighter' && side === 'R' ? `<img class="badge" src="${v.flag}" alt="">` : ''}</div>`
+  // record / ranking under each name, only when the data says these are the numbers each side brings INTO this game
+  const stats = event.stats?.enteringGame ? event.stats.sides : null
+  const name = (p, v, side, i) => `<div class="nb nb-${side}">
+    <div class="name name-${side}" data-fit>
+      ${v.flag && p.kind === 'fighter' && side === 'L' ? `<img class="badge" src="${v.flag}" alt="">` : ''}
+      <span class="rye nm" data-fit-text>${esc(p.short ?? p.name.es)}</span>
+      ${v.flag && p.kind === 'fighter' && side === 'R' ? `<img class="badge" src="${v.flag}" alt="">` : ''}</div>
+    ${stats?.[i] ? `<div class="stat stat-${side}"><span class="rec">${esc(stats[i].record)}</span>${stats[i].rank ? `<span class="rk">${esc(stats[i].rank)}</span>` : ''}</div>` : ''}</div>`
 
   const cx = (side) => (side === 'L' ? 0.24 : 0.76) * w
   const cy = midY * h + D
@@ -188,9 +192,16 @@ export function eventFlyer(event, promo, size = 'feed') {
 .cut-R{-webkit-mask-image:linear-gradient(180deg,#000 72%,transparent 98%),linear-gradient(90deg,transparent 0%,#000 22%);right:${story ? -40 : -30}px;max-width:${w * 0.62}px;object-fit:contain;object-position:bottom right}
 .vs{position:absolute;z-index:8;left:50%;top:${fighters ? (story ? 0.36 : 0.40) * h + D : cy}px;transform:translate(-50%,-50%);font-size:${vsSize}px;line-height:1;color:var(--bone);
   text-shadow:0 0 0 #000,6px 6px 0 var(--ember),0 0 60px rgba(240,38,46,.75),0 10px 40px rgba(0,0,0,.9);-webkit-text-stroke:3px #0a0706}
-.name{position:absolute;z-index:9;top:${fighters ? infoTop - 120 : nameY}px;width:${w * (fighters ? 0.46 : 0.4)}px;padding:0 4px;overflow:hidden;display:flex;align-items:center;justify-content:center;gap:14px}
-.name-L{left:${fighters ? 40 : cx('L') - w * 0.2}px;${fighters ? 'justify-content:flex-start;' : ''}}
-.name-R{left:${fighters ? w - 40 - w * 0.46 : cx('R') - w * 0.2}px;${fighters ? 'justify-content:flex-end;' : ''}}
+.nb{position:absolute;z-index:9;top:${(fighters ? infoTop - 120 : nameY) - (stats ? (fighters ? 66 : 14) : 0)}px;width:${w * (fighters ? 0.46 : 0.4)}px;display:flex;flex-direction:column;gap:6px}
+.nb-L{left:${fighters ? 40 : cx('L') - w * 0.2}px;align-items:${fighters ? 'flex-start' : 'center'}}
+.nb-R{left:${fighters ? w - 40 - w * 0.46 : cx('R') - w * 0.2}px;align-items:${fighters ? 'flex-end' : 'center'}}
+.name{width:100%;padding:0 4px;overflow:hidden;display:flex;align-items:center;justify-content:center;gap:14px}
+.name-L{${fighters ? 'justify-content:flex-start;' : ''}}
+.name-R{${fighters ? 'justify-content:flex-end;' : ''}}
+.stat{display:flex;flex-direction:column;gap:2px;padding:0 6px;width:100%}
+.stat-L{align-items:${fighters ? 'flex-start' : 'center'}}.stat-R{align-items:${fighters ? 'flex-end' : 'center'}}
+.rec{font-weight:700;font-size:46px;line-height:1.05;letter-spacing:.04em;color:var(--silver);background:var(--metal);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 2px 6px rgba(0,0,0,.8))}
+.rk{font-weight:700;font-size:23px;letter-spacing:.18em;text-transform:uppercase;color:var(--bone-dim);text-shadow:0 2px 8px rgba(0,0,0,.9)}
 .nm{font-size:${fighters ? 72 : 62}px;line-height:1;color:var(--bone);text-shadow:0 4px 0 rgba(0,0,0,.6),0 8px 30px rgba(0,0,0,.95);white-space:nowrap}
 .badge{flex:none;height:42px;border-radius:6px;box-shadow:0 4px 12px rgba(0,0,0,.7);border:2px solid rgba(239,230,212,.7)}
 .info{position:absolute;z-index:10;left:0;right:0;top:${infoTop}px;display:flex;flex-direction:column;align-items:center;gap:${story ? 22 : 14}px}
@@ -211,7 +222,7 @@ ${sideBg(A, va, 'L')}${sideBg(B, vb, 'R')}
 <div class="top">${LOGO()}<span class="label">${label}</span></div>
 ${hero(A, va, 'L')}${hero(B, vb, 'R')}
 <div class="vs rye">VS</div>
-${name(A, va, 'L')}${name(B, vb, 'R')}
+${name(A, va, 'L', 0)}${name(B, vb, 'R', 1)}
 <div class="info">
   <div class="when"><div class="day"><span class="wd">${esc(fmtWeekday(event.kickoff))}</span><span class="dt">${esc(fmtDate(event.kickoff))}</span></div><div><span class="time">${esc(fmtTime(event.kickoff))}</span></div></div>
   <div class="chan">En vivo en Ocho 80</div>

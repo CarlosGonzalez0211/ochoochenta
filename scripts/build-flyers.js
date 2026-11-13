@@ -98,6 +98,12 @@ function writePlan() {
   const lines = ['# Plan de publicación', '', `Generado ${new Date(now).toISOString().slice(0, 10)} · hora de Ciudad Juárez. Si dos eventos se empalman, solo se publica el de mayor prioridad (config: \`src/data/events/priorities.json\`).`, '']
   lines.push('## Publicar', '')
   for (const e of plan.posted) { const s = plan.scores.get(e.id); lines.push(`- **${name(e)}** · ${hhmm(e)} · ${e.league} · puntos ${s?.score ?? '-'} (${s?.why.join(', ') ?? ''})`) }
+  lines.push('', '## Récords en los flyers', '')
+  for (const e of plan.posted.concat(plan.skipped.map((s) => s.event))) {
+    const s = e.stats
+    const shown = s?.enteringGame ? `sí · ${s.sides.map((x) => [x.record, x.rank].filter(Boolean).join(' ')).join(' vs. ')} (al ${s.asOf})` : 'no (aún no hay récord confirmado de cómo llegan a este partido)'
+    lines.push(`- ${name(e)}: ${shown}${s?.notes ? ` — ${s.notes}` : ''}`)
+  }
   lines.push('', '## No publicar (se empalma con uno de mayor prioridad)', '')
   if (!plan.skipped.length) lines.push('- Ninguno: no hay eventos empalmados.')
   for (const { event: e, conflictsWith: c } of plan.skipped) { const s = plan.scores.get(e.id); lines.push(`- ${name(e)} · ${hhmm(e)} · puntos ${s.score} (${s.why.join(', ')}) → se empalma con **${name(c)}** (${hhmm(c)}, puntos ${plan.scores.get(c.id).score}). Su flyer está en \`alternativas/\` por si prefieres publicarlo en lugar del otro.`) }

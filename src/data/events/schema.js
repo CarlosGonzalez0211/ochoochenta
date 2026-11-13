@@ -18,6 +18,12 @@ export function validateEvent(e, { promoIds = [], participantIds = null } = {}) 
   need(typeof e.verified === 'boolean', 'verified must be true/false')
   if (e.promoId != null && e.promoId !== '') need(promoIds.includes(e.promoId), `promoId "${e.promoId}" not found in promos-by-sport.json`)
   if (e.priority != null) need(typeof e.priority === 'number' && Number.isFinite(e.priority), 'priority must be a number (optional; overrides the computed flyer score)')
+  if (e.stats != null) {
+    const s = e.stats
+    need(Array.isArray(s.sides) && s.sides.length === 2 && s.sides.every((x) => x && typeof x.record === 'string' && x.record.trim()), 'stats.sides must be [left, right], each with a record string (UFC "14-2", NFL "6-2", Liga MX "11 pts")')
+    need(typeof s.enteringGame === 'boolean', 'stats.enteringGame must be true only when these are the records each side brings INTO this game')
+    need(typeof s.asOf === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(s.asOf), 'stats.asOf must be YYYY-MM-DD')
+  }
   if (e.matchup != null) {
     need(Array.isArray(e.matchup) && e.matchup.length === 2 && e.matchup.every((s) => typeof s === 'string'), 'matchup must be [left, right] participant slugs')
     if (participantIds && Array.isArray(e.matchup)) for (const s of e.matchup) need(participantIds.includes(s), `matchup "${s}" not found in participants.json`)

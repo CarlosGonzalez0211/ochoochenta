@@ -39,6 +39,13 @@ scripts/
   "notes": ""
 }
 ```
+Optional `stats` shows each side's record under its name on the flyer — only when `enteringGame` is true, i.e. these are the numbers each side brings INTO that game:
+```json
+"stats": { "asOf": "2026-11-13", "enteringGame": true, "source": "https://…",
+  "sides": [ { "record": "14-2", "rank": "Campeón HW" }, { "record": "10-0", "rank": "#10 HW" } ] }
+```
+UFC: `14-2` + ranking (`#3 LHW`). NFL: win-loss(-tie) `6-2` (the NFL has no league points). Liga MX: `11 pts` + position (`18.º lugar`). `sides` follow the `matchup` order. Leave `stats` out (or `enteringGame` false) when a team still has a game to play before this one — the record would be wrong by kickoff — and add it in the next weekly sweep.
+
 Use stable ids (`date-league-teams`) so re-running a sweep updates instead of duplicating.
 
 ## Flyers

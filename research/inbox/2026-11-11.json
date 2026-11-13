@@ -54,7 +54,23 @@
     "featured": true,
     "promoId": "soccer",
     "source": "https://www.telediario.mx/futbol/liga-mx/fc-juarez-vs-atlas-j17-liga-mx-2026-cuando-es-y-donde-ver",
-    "notes": "CONFLICT: Mediotiempo lists Nov 21 17:00 instead. Juárez already eliminated from the liguilla; still a home game at Estadio Olímpico Benito Juárez."
+    "notes": "CONFLICT: Mediotiempo lists Nov 21 17:00 instead. Juárez already eliminated from the liguilla; still a home game at Estadio Olímpico Benito Juárez.",
+    "stats": {
+      "asOf": "2026-11-09",
+      "enteringGame": true,
+      "source": "https://www.foxsports.com.mx/2026/11/08/chivas-dejo-ir-el-liderato-cruz-azul-esta-en-la-cima-liga-mx-tabla-general-de-posiciones-tras-la-jornada-16-del-torneo-apertura-2026/",
+      "sides": [
+        {
+          "record": "11 pts",
+          "rank": "18.º lugar"
+        },
+        {
+          "record": "27 pts",
+          "rank": "5.º lugar"
+        }
+      ],
+      "notes": "Table after Jornada 16; this match is Jornada 17, so these are the points each team brings in."
+    }
   },
   {
     "id": "2026-11-14-ufc-334-gane-hokit",
@@ -73,7 +89,23 @@
     "featured": false,
     "promoId": "mma",
     "source": "https://www.paramountplus.com/sneak-peak/ufc-schedule-2026/",
-    "notes": "21:00 ET is the MAIN CARD start (20:00 Juárez). Sources disagree on PPV vs Paramount+. Check Mexican availability (likely different provider)."
+    "notes": "21:00 ET is the MAIN CARD start (20:00 Juárez). Sources disagree on PPV vs Paramount+. Check Mexican availability (likely different provider).",
+    "stats": {
+      "asOf": "2026-11-13",
+      "enteringGame": true,
+      "source": "https://www.cbssports.com/ufc/news/ufc-334-fight-card-ciryl-gane-josh-hokit-date-odds-location/",
+      "sides": [
+        {
+          "record": "14-2",
+          "rank": "Campeón HW"
+        },
+        {
+          "record": "10-0",
+          "rank": "#10 HW"
+        }
+      ],
+      "notes": "Hokit's #10 comes from a single Tapology listing; verify on ufc.com/rankings."
+    }
   },
   {
     "id": "2026-11-21-ufc-fight-night-prochazka-stirling",
@@ -92,7 +124,22 @@
     "featured": false,
     "promoId": "mma",
     "source": "https://www.paramountplus.com/sneak-peak/ufc-schedule-2026/",
-    "notes": "Doha card; start times differ across sources."
+    "notes": "Doha card; start times differ across sources.",
+    "stats": {
+      "asOf": "2026-11-13",
+      "enteringGame": true,
+      "source": "https://kalshi.com/ufc/fighters/jiri-prochazka",
+      "sides": [
+        {
+          "record": "32-6-1",
+          "rank": "#3 LHW"
+        },
+        {
+          "record": "11-0"
+        }
+      ],
+      "notes": "Rankings conflict across sources (Procházka #2/#3, Stirling #5/#6/#7), so Stirling's rank is left out until ufc.com is checked."
+    }
   },
   {
     "id": "2026-12-12-ufc-335-oliveira-lopes",
@@ -111,7 +158,22 @@
     "featured": true,
     "promoId": "mma",
     "source": "https://www.cbssports.com/ufc/news/2026-ufc-event-schedule-natalia-silva-wang-cong-ciryl-gane-josh-hokit/",
-    "notes": "Main card 21:00 ET (19:00 Juárez). Also Pereira vs. Pavlovich listed."
+    "notes": "Main card 21:00 ET (19:00 Juárez). Also Pereira vs. Pavlovich listed.",
+    "stats": {
+      "asOf": "2026-11-13",
+      "enteringGame": true,
+      "source": "https://next-fight.com/en/fighter/charles-oliveira",
+      "sides": [
+        {
+          "record": "37-11 (1 NC)",
+          "rank": "#3 LW"
+        },
+        {
+          "record": "28-8"
+        }
+      ],
+      "notes": "Lopes is 27-8 on UFC Stats and 28-8 on Tapology/Sherdog; his lightweight rank was inconsistent, so it is left out."
+    }
   },
   {
     "id": "2026-11-26-nfl-bears-lions-thanksgiving",
