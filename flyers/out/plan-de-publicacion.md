@@ -1,6 +1,6 @@
 # Plan de publicación
 
-Generado 2026-11-12 · hora de Ciudad Juárez. Si dos eventos se empalman, solo se publica el de mayor prioridad (config: `src/data/events/priorities.json`).
+Generado 2026-11-13 · hora de Ciudad Juárez. Si dos eventos se empalman, solo se publica el de mayor prioridad (config: `src/data/events/priorities.json`).
 
 ## Publicar
 

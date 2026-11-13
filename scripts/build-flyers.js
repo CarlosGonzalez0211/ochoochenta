@@ -5,6 +5,7 @@
 //   npm run build:flyers -- --id <id>     one event only
 //   npm run build:flyers -- --days 7      roundup window (default 7)
 //   npm run build:flyers -- --now <ISO>   pretend it's another moment (testing)
+//   npm run build:flyers -- --format jpg  png (default) | jpg (Instagram-ready, quality 95) | both
 //
 // Output — ready to post as a carousel, in this order:
 //   flyers/out/esta-semana-<date>/00-esta-semana.png   the roundup (cover slide)
@@ -26,6 +27,7 @@ const flag = (n) => args.includes(`--${n}`)
 const val = (n) => { const i = args.indexOf(`--${n}`); return i >= 0 ? args[i + 1] : undefined }
 
 const SIZE = 'feed' // Instagram 4:5
+const FORMAT = ['png', 'jpg', 'both'].includes(val('format')) ? val('format') : 'png'
 const now = val('now') ? Date.parse(val('now')) : Date.now()
 const days = Number(val('days') ?? 7)
 const read = (p) => JSON.parse(readFileSync(new URL(p, import.meta.url), 'utf8'))
@@ -68,8 +70,11 @@ async function render(html, size, file) {
   await page.goto(pathToFileURL(tmp).href, { waitUntil: 'networkidle' })
   await page.evaluate(() => document.fonts.ready)
   mkdirSync(`${outDir}${file.split('/').slice(0, -1).join('/')}`, { recursive: true })
-  await page.screenshot({ path: `${outDir}${file}`, clip: { x: 0, y: 0, width: w, height: h } })
-  console.log(`✓ flyers/out/${file}`)
+  for (const ext of FORMAT === 'both' ? ['png', 'jpg'] : [FORMAT]) {
+    const out = file.replace(/\.png$/, `.${ext}`)
+    await page.screenshot({ path: `${outDir}${out}`, clip: { x: 0, y: 0, width: w, height: h }, type: ext === 'jpg' ? 'jpeg' : 'png', ...(ext === 'jpg' ? { quality: 95 } : {}) })
+    console.log(`✓ flyers/out/${out}`)
+  }
 }
 
 // window runs to the END of the last day, Juárez time (so a Sunday-night game isn't cut off)
