@@ -101,7 +101,7 @@ function writePlan() {
   lines.push('', '## Récords en los flyers', '')
   for (const e of plan.posted.concat(plan.skipped.map((s) => s.event))) {
     const s = e.stats
-    const shown = s?.enteringGame ? `sí · ${s.sides.map((x) => [x.record, x.rank].filter(Boolean).join(' ')).join(' vs. ')} (al ${s.asOf})` : 'no (aún no hay récord confirmado de cómo llegan a este partido)'
+    const shown = s ? `sí · ${s.sides.map((x) => [x.record, x.rank].filter(Boolean).join(' ')).join(' vs. ')} (al ${s.asOf}${s.enteringGame ? '' : '; AÚN NO es el récord con el que llegan: se actualiza en el siguiente barrido'})` : 'no hay datos'
     lines.push(`- ${name(e)}: ${shown}${s?.notes ? ` — ${s.notes}` : ''}`)
   }
   lines.push('', '## No publicar (se empalma con uno de mayor prioridad)', '')

@@ -48,11 +48,10 @@
           "rank": "Campeón HW"
         },
         {
-          "record": "10-0",
-          "rank": "#10 HW"
+          "record": "10-0"
         }
       ],
-      "notes": "Hokit's #10 comes from a single Tapology listing; verify on ufc.com/rankings."
+      "notes": "Hokit's heavyweight rank is #4 on one site and #5 on another (earlier I had #10, which was wrong), so it is left out until ufc.com is checked."
     }
   },
   {
@@ -127,7 +126,21 @@
     ],
     "kickoff": "2026-11-19T20:15:00-05:00",
     "channel": "Prime Video",
-    "verified": false
+    "verified": false,
+    "stats": {
+      "asOf": "2026-11-13",
+      "enteringGame": false,
+      "source": "https://bleacherreport.com/articles/25531025-nfl-playoff-picture-2026-week-10-standings-super-bowl-odds-wild-card-bracket-hunt",
+      "sides": [
+        {
+          "record": "2-6"
+        },
+        {
+          "record": "3-5"
+        }
+      ],
+      "notes": "Record before Week 10 is played; refresh in the weekly sweep. Colts are 2-7 on StatMuse."
+    }
   },
   {
     "featured": true,
@@ -187,17 +200,18 @@
     "stats": {
       "asOf": "2026-11-13",
       "enteringGame": true,
-      "source": "https://kalshi.com/ufc/fighters/jiri-prochazka",
+      "source": "https://www.ufc.com/news/former-champion-jiri-prochazka-takes-undefeated-navajo-stirling-ufc-returns-doha-november-21",
       "sides": [
         {
           "record": "32-6-1",
-          "rank": "#3 LHW"
+          "rank": "#2 LHW"
         },
         {
-          "record": "11-0"
+          "record": "11-0",
+          "rank": "#5 LHW"
         }
       ],
-      "notes": "Rankings conflict across sources (Procházka #2/#3, Stirling #5/#6/#7), so Stirling's rank is left out until ufc.com is checked."
+      "notes": "UFC's own announcement calls Procházka No. 2 and Stirling No. 5; ufcrankings.org (Nov 3 panel) agrees. Other sites show #3 / #6 / #7 (older or algorithmic rankings)."
     }
   },
   {
@@ -218,7 +232,21 @@
     ],
     "kickoff": "2026-11-22T13:00:00-05:00",
     "channel": "FOX",
-    "verified": false
+    "verified": false,
+    "stats": {
+      "asOf": "2026-11-13",
+      "enteringGame": false,
+      "source": "https://bleacherreport.com/articles/25531025-nfl-playoff-picture-2026-week-10-standings-super-bowl-odds-wild-card-bracket-hunt",
+      "sides": [
+        {
+          "record": "1-7"
+        },
+        {
+          "record": "4-5"
+        }
+      ],
+      "notes": "Record before Week 10 is played; refresh in the weekly sweep. "
+    }
   },
   {
     "featured": true,
@@ -238,7 +266,21 @@
     ],
     "kickoff": "2026-11-22T20:20:00-05:00",
     "channel": "NBC",
-    "verified": false
+    "verified": false,
+    "stats": {
+      "asOf": "2026-11-13",
+      "enteringGame": false,
+      "source": "https://bleacherreport.com/articles/25531025-nfl-playoff-picture-2026-week-10-standings-super-bowl-odds-wild-card-bracket-hunt",
+      "sides": [
+        {
+          "record": "6-2"
+        },
+        {
+          "record": "7-1"
+        }
+      ],
+      "notes": "Record before Week 10 is played; refresh in the weekly sweep. Bleacher Report lists the Vikings at 6-1; Yahoo/StatMuse/Fox say 6-2."
+    }
   },
   {
     "featured": false,
@@ -258,7 +300,21 @@
     ],
     "kickoff": "2026-11-23T20:15:00-05:00",
     "channel": "ESPN",
-    "verified": false
+    "verified": false,
+    "stats": {
+      "asOf": "2026-11-13",
+      "enteringGame": false,
+      "source": "https://www.covers.com/sport/football/nfl/standings",
+      "sides": [
+        {
+          "record": "6-2"
+        },
+        {
+          "record": "2-5-1"
+        }
+      ],
+      "notes": "Record before Week 10 is played; refresh in the weekly sweep. "
+    }
   },
   {
     "featured": false,
@@ -278,7 +334,21 @@
     ],
     "kickoff": "2026-11-26T13:00:00-05:00",
     "channel": "CBS",
-    "verified": false
+    "verified": false,
+    "stats": {
+      "asOf": "2026-11-13",
+      "enteringGame": false,
+      "source": "https://www.covers.com/sport/football/nfl/standings",
+      "sides": [
+        {
+          "record": "7-2"
+        },
+        {
+          "record": "6-2"
+        }
+      ],
+      "notes": "Record before Week 10 is played; refresh in the weekly sweep. "
+    }
   },
   {
     "featured": true,
@@ -298,7 +368,21 @@
     ],
     "kickoff": "2026-11-26T16:30:00-05:00",
     "channel": "Fox",
-    "verified": false
+    "verified": false,
+    "stats": {
+      "asOf": "2026-11-13",
+      "enteringGame": false,
+      "source": "https://www.covers.com/sport/football/nfl/standings",
+      "sides": [
+        {
+          "record": "2-7"
+        },
+        {
+          "record": "4-5"
+        }
+      ],
+      "notes": "Record before Week 10 is played; refresh in the weekly sweep. "
+    }
   },
   {
     "featured": false,
@@ -318,7 +402,21 @@
     ],
     "kickoff": "2026-11-26T20:20:00-05:00",
     "channel": "NBC / Peacock",
-    "verified": false
+    "verified": false,
+    "stats": {
+      "asOf": "2026-11-13",
+      "enteringGame": false,
+      "source": "https://www.arrowheadpride.com/kansas-city-chiefs-nfl-playoffs/215670/afc-playoff-picture-chiefs-keep-pace-week-9-win",
+      "sides": [
+        {
+          "record": "6-2"
+        },
+        {
+          "record": "7-1"
+        }
+      ],
+      "notes": "Record before Week 10 is played; refresh in the weekly sweep. Bills are 6-1 on Bleacher Report, 7-1 on Covers/Kalshi."
+    }
   },
   {
     "featured": false,
@@ -338,7 +436,21 @@
     ],
     "kickoff": "2026-11-29T20:20:00-05:00",
     "channel": "NBC",
-    "verified": false
+    "verified": false,
+    "stats": {
+      "asOf": "2026-11-13",
+      "enteringGame": false,
+      "source": "https://www.espn.com/nfl/story/_/id/50435694/nfl-power-rankings-week-10-most-important-games-remaining",
+      "sides": [
+        {
+          "record": "5-4"
+        },
+        {
+          "record": "0-8"
+        }
+      ],
+      "notes": "Record before Week 10 is played; refresh in the weekly sweep. "
+    }
   },
   {
     "featured": false,
@@ -358,7 +470,21 @@
     ],
     "kickoff": "2026-11-30T20:15:00-05:00",
     "channel": "ESPN",
-    "verified": false
+    "verified": false,
+    "stats": {
+      "asOf": "2026-11-13",
+      "enteringGame": false,
+      "source": "https://www.espn.com/nfl/story/_/id/50435694/nfl-power-rankings-week-10-most-important-games-remaining",
+      "sides": [
+        {
+          "record": "3-5"
+        },
+        {
+          "record": "3-6"
+        }
+      ],
+      "notes": "Record before Week 10 is played; refresh in the weekly sweep. "
+    }
   },
   {
     "featured": true,

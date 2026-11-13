@@ -49,7 +49,21 @@
     "featured": false,
     "promoId": "football",
     "source": "https://fbschedules.com/nfl-schedule-2026-two-changes-announced-for-week-11/",
-    "notes": ""
+    "notes": "",
+    "stats": {
+      "asOf": "2026-11-13",
+      "enteringGame": false,
+      "source": "https://bleacherreport.com/articles/25531025-nfl-playoff-picture-2026-week-10-standings-super-bowl-odds-wild-card-bracket-hunt",
+      "sides": [
+        {
+          "record": "2-6"
+        },
+        {
+          "record": "3-5"
+        }
+      ],
+      "notes": "Record before Week 10 is played; refresh in the weekly sweep. Colts are 2-7 on StatMuse."
+    }
   },
   {
     "id": "2026-11-22-nfl-titans-cowboys",
@@ -68,7 +82,21 @@
     "featured": false,
     "promoId": "football",
     "source": "https://fbschedules.com/nfl-schedule-2026-two-changes-announced-for-week-11/",
-    "notes": "Cowboys draw in Juárez."
+    "notes": "Cowboys draw in Juárez.",
+    "stats": {
+      "asOf": "2026-11-13",
+      "enteringGame": false,
+      "source": "https://bleacherreport.com/articles/25531025-nfl-playoff-picture-2026-week-10-standings-super-bowl-odds-wild-card-bracket-hunt",
+      "sides": [
+        {
+          "record": "1-7"
+        },
+        {
+          "record": "4-5"
+        }
+      ],
+      "notes": "Record before Week 10 is played; refresh in the weekly sweep. "
+    }
   },
   {
     "id": "2026-11-22-nfl-vikings-49ers-mexico-city",
@@ -87,7 +115,21 @@
     "featured": true,
     "promoId": "football",
     "source": "https://fbschedules.com/nfl-schedule-2026-two-changes-announced-for-week-11/",
-    "notes": "Played in Mexico City — headline NFL event for a Mexican crowd."
+    "notes": "Played in Mexico City — headline NFL event for a Mexican crowd.",
+    "stats": {
+      "asOf": "2026-11-13",
+      "enteringGame": false,
+      "source": "https://bleacherreport.com/articles/25531025-nfl-playoff-picture-2026-week-10-standings-super-bowl-odds-wild-card-bracket-hunt",
+      "sides": [
+        {
+          "record": "6-2"
+        },
+        {
+          "record": "7-1"
+        }
+      ],
+      "notes": "Record before Week 10 is played; refresh in the weekly sweep. Bleacher Report lists the Vikings at 6-1; Yahoo/StatMuse/Fox say 6-2."
+    }
   },
   {
     "id": "2026-11-23-nfl-bengals-commanders-mnf",
@@ -106,6 +148,20 @@
     "featured": false,
     "promoId": "football",
     "source": "https://fbschedules.com/nfl-schedule-2026-two-changes-announced-for-week-11/",
-    "notes": ""
+    "notes": "",
+    "stats": {
+      "asOf": "2026-11-13",
+      "enteringGame": false,
+      "source": "https://www.covers.com/sport/football/nfl/standings",
+      "sides": [
+        {
+          "record": "6-2"
+        },
+        {
+          "record": "2-5-1"
+        }
+      ],
+      "notes": "Record before Week 10 is played; refresh in the weekly sweep. "
+    }
   }
 ]

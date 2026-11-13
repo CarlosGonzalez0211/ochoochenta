@@ -100,11 +100,10 @@
           "rank": "Campeón HW"
         },
         {
-          "record": "10-0",
-          "rank": "#10 HW"
+          "record": "10-0"
         }
       ],
-      "notes": "Hokit's #10 comes from a single Tapology listing; verify on ufc.com/rankings."
+      "notes": "Hokit's heavyweight rank is #4 on one site and #5 on another (earlier I had #10, which was wrong), so it is left out until ufc.com is checked."
     }
   },
   {
@@ -128,17 +127,18 @@
     "stats": {
       "asOf": "2026-11-13",
       "enteringGame": true,
-      "source": "https://kalshi.com/ufc/fighters/jiri-prochazka",
+      "source": "https://www.ufc.com/news/former-champion-jiri-prochazka-takes-undefeated-navajo-stirling-ufc-returns-doha-november-21",
       "sides": [
         {
           "record": "32-6-1",
-          "rank": "#3 LHW"
+          "rank": "#2 LHW"
         },
         {
-          "record": "11-0"
+          "record": "11-0",
+          "rank": "#5 LHW"
         }
       ],
-      "notes": "Rankings conflict across sources (Procházka #2/#3, Stirling #5/#6/#7), so Stirling's rank is left out until ufc.com is checked."
+      "notes": "UFC's own announcement calls Procházka No. 2 and Stirling No. 5; ufcrankings.org (Nov 3 panel) agrees. Other sites show #3 / #6 / #7 (older or algorithmic rankings)."
     }
   },
   {

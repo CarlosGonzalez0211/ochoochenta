@@ -158,8 +158,11 @@ export function eventFlyer(event, promo, size = 'feed') {
     return `<div class="mark mark-${side}"><div class="mono rye" style="background:${p.colors?.[0] ?? '#333'}">${esc(initials(p))}</div></div>`
   }
 
-  // record / ranking under each name, only when the data says these are the numbers each side brings INTO this game
-  const stats = event.stats?.enteringGame ? event.stats.sides : null
+  // record / ranking under each name. When they aren't yet the numbers each side brings INTO this game, the flyer says "Récords al <date>".
+  const stats = event.stats?.sides ?? null
+  const asOfLabel = event.stats && !event.stats.enteringGame
+    ? new Intl.DateTimeFormat('es-MX', { day: 'numeric', month: 'short', timeZone: VENUE_TZ }).format(new Date(`${event.stats.asOf}T12:00:00-07:00`)).replace(/\./g, '')
+    : ''
   const name = (p, v, side, i) => `<div class="nb nb-${side}">
     <div class="name name-${side}" data-fit>
       ${v.flag && p.kind === 'fighter' && side === 'L' ? `<img class="badge" src="${v.flag}" alt="">` : ''}
@@ -211,6 +214,7 @@ export function eventFlyer(event, promo, size = 'feed') {
 .wd{font-weight:700;font-size:${story ? 34 : 30}px;letter-spacing:.2em;text-transform:uppercase;color:var(--bone)}
 .dt{font-weight:600;font-size:${story ? 26 : 23}px;letter-spacing:.16em;text-transform:uppercase;color:var(--bone-dim)}
 .time{font-weight:700;font-size:${story ? 96 : 84}px;line-height:1;color:var(--silver);background:var(--metal);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.asof{font-weight:600;font-size:19px;letter-spacing:.2em;text-transform:uppercase;color:var(--bone-dim);opacity:.85;margin-top:-6px}
 .chan{font-weight:700;font-size:22px;letter-spacing:.24em;text-transform:uppercase;color:var(--bone-dim)}
 .chan b{color:var(--bone)}
 `
@@ -226,6 +230,7 @@ ${name(A, va, 'L', 0)}${name(B, vb, 'R', 1)}
 <div class="info">
   <div class="when"><div class="day"><span class="wd">${esc(fmtWeekday(event.kickoff))}</span><span class="dt">${esc(fmtDate(event.kickoff))}</span></div><div><span class="time">${esc(fmtTime(event.kickoff))}</span></div></div>
   <div class="chan">En vivo en Ocho 80</div>
+  ${asOfLabel ? `<div class="asof">Récords al ${esc(asOfLabel)}</div>` : ''}
   ${promo ? `<div class="ribbon">${esc(promo)}</div>` : ''}
 </div>
 ${FOOTER()}`

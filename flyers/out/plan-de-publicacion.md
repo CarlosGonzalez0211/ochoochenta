@@ -22,22 +22,22 @@ Generado 2026-11-13 · hora de Ciudad Juárez. Si dos eventos se empalman, solo 
 
 ## Récords en los flyers
 
-- Jamaica vs. México: no (aún no hay récord confirmado de cómo llegan a este partido)
+- Jamaica vs. México: no hay datos
 - Steelers vs. Bengals: sí · 6-2 vs. 6-2 (al 2026-11-13) — One standings site lists the Bengals at 5-2; Bleacher Report and StatMuse say 6-2.
-- México vs. Jamaica: no (aún no hay récord confirmado de cómo llegan a este partido)
-- Colts vs. Texans: no (aún no hay récord confirmado de cómo llegan a este partido)
+- México vs. Jamaica: no hay datos
+- Colts vs. Texans: sí · 2-6 vs. 3-5 (al 2026-11-13; AÚN NO es el récord con el que llegan: se actualiza en el siguiente barrido) — Record before Week 10 is played; refresh in the weekly sweep. Colts are 2-7 on StatMuse.
 - FC Juárez vs. Atlas: sí · 11 pts 18.º lugar vs. 27 pts 5.º lugar (al 2026-11-09) — Table after Jornada 16; this match is Jornada 17, so these are the points each team brings in.
-- Jiří Procházka vs. Navajo Stirling: sí · 32-6-1 #3 LHW vs. 11-0 (al 2026-11-13) — Rankings conflict across sources (Procházka #2/#3, Stirling #5/#6/#7), so Stirling's rank is left out until ufc.com is checked.
-- Titans vs. Cowboys: no (aún no hay récord confirmado de cómo llegan a este partido)
-- Vikings vs. 49ers: no (aún no hay récord confirmado de cómo llegan a este partido)
-- Bengals vs. Commanders: no (aún no hay récord confirmado de cómo llegan a este partido)
-- Bears vs. Lions: no (aún no hay récord confirmado de cómo llegan a este partido)
-- Eagles vs. Cowboys: no (aún no hay récord confirmado de cómo llegan a este partido)
-- Chiefs vs. Bills: no (aún no hay récord confirmado de cómo llegan a este partido)
-- Patriots vs. Chargers: no (aún no hay récord confirmado de cómo llegan a este partido)
-- Panthers vs. Buccaneers: no (aún no hay récord confirmado de cómo llegan a este partido)
+- Jiří Procházka vs. Navajo Stirling: sí · 32-6-1 #2 LHW vs. 11-0 #5 LHW (al 2026-11-13) — UFC's own announcement calls Procházka No. 2 and Stirling No. 5; ufcrankings.org (Nov 3 panel) agrees. Other sites show #3 / #6 / #7 (older or algorithmic rankings).
+- Titans vs. Cowboys: sí · 1-7 vs. 4-5 (al 2026-11-13; AÚN NO es el récord con el que llegan: se actualiza en el siguiente barrido) — Record before Week 10 is played; refresh in the weekly sweep. 
+- Vikings vs. 49ers: sí · 6-2 vs. 7-1 (al 2026-11-13; AÚN NO es el récord con el que llegan: se actualiza en el siguiente barrido) — Record before Week 10 is played; refresh in the weekly sweep. Bleacher Report lists the Vikings at 6-1; Yahoo/StatMuse/Fox say 6-2.
+- Bengals vs. Commanders: sí · 6-2 vs. 2-5-1 (al 2026-11-13; AÚN NO es el récord con el que llegan: se actualiza en el siguiente barrido) — Record before Week 10 is played; refresh in the weekly sweep. 
+- Bears vs. Lions: sí · 7-2 vs. 6-2 (al 2026-11-13; AÚN NO es el récord con el que llegan: se actualiza en el siguiente barrido) — Record before Week 10 is played; refresh in the weekly sweep. 
+- Eagles vs. Cowboys: sí · 2-7 vs. 4-5 (al 2026-11-13; AÚN NO es el récord con el que llegan: se actualiza en el siguiente barrido) — Record before Week 10 is played; refresh in the weekly sweep. 
+- Chiefs vs. Bills: sí · 6-2 vs. 7-1 (al 2026-11-13; AÚN NO es el récord con el que llegan: se actualiza en el siguiente barrido) — Record before Week 10 is played; refresh in the weekly sweep. Bills are 6-1 on Bleacher Report, 7-1 on Covers/Kalshi.
+- Patriots vs. Chargers: sí · 5-4 vs. 0-8 (al 2026-11-13; AÚN NO es el récord con el que llegan: se actualiza en el siguiente barrido) — Record before Week 10 is played; refresh in the weekly sweep. 
+- Panthers vs. Buccaneers: sí · 3-5 vs. 3-6 (al 2026-11-13; AÚN NO es el récord con el que llegan: se actualiza en el siguiente barrido) — Record before Week 10 is played; refresh in the weekly sweep. 
 - Charles Oliveira vs. Diego Lopes: sí · 37-11 (1 NC) #3 LW vs. 28-8 (al 2026-11-13) — Lopes is 27-8 on UFC Stats and 28-8 on Tapology/Sherdog; his lightweight rank was inconsistent, so it is left out.
-- Ciryl Gane vs. Josh Hokit: sí · 14-2 Campeón HW vs. 10-0 #10 HW (al 2026-11-13) — Hokit's #10 comes from a single Tapology listing; verify on ufc.com/rankings.
+- Ciryl Gane vs. Josh Hokit: sí · 14-2 Campeón HW vs. 10-0 (al 2026-11-13) — Hokit's heavyweight rank is #4 on one site and #5 on another (earlier I had #10, which was wrong), so it is left out until ufc.com is checked.
 
 ## No publicar (se empalma con uno de mayor prioridad)
 
