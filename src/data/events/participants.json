@@ -1,8 +1,8 @@
 {
   "_readme": "Teams, countries and fighters referenced by events.json (home/away). kind: country | team | fighter. Countries use a flag (ISO code). Teams/fighters get their image from the infobox of the given English Wikipedia article (scripts/fetch-assets.js) unless you drop your own file at flyers/assets/custom/<slug>.png|svg|jpg — custom always wins. colors: [primary, secondary] used for the VS background.",
 
-  "mexico":      { "kind": "country", "name": { "es": "México", "en": "Mexico" }, "short": "MÉX", "flag": "mx", "colors": ["#006847", "#ce1126"] },
-  "jamaica":     { "kind": "country", "name": { "es": "Jamaica", "en": "Jamaica" }, "short": "JAM", "flag": "jm", "colors": ["#009b3a", "#fed100"] },
+  "mexico":      { "kind": "country", "name": { "es": "México", "en": "Mexico" }, "short": "MÉXICO", "flag": "mx", "colors": ["#006847", "#ce1126"] },
+  "jamaica":     { "kind": "country", "name": { "es": "Jamaica", "en": "Jamaica" }, "short": "JAMAICA", "flag": "jm", "colors": ["#009b3a", "#fed100"] },
 
   "fc-juarez":   { "kind": "team", "name": { "es": "FC Juárez", "en": "FC Juárez" }, "short": "JUÁREZ", "wiki": "FC_Juárez", "colors": ["#0a8a3b", "#c8102e"] },
   "atlas":       { "kind": "team", "name": { "es": "Atlas", "en": "Atlas" }, "short": "ATLAS", "wiki": "Atlas_F.C.", "colors": ["#c8102e", "#111111"] },
@@ -23,7 +23,7 @@
   "patriots":    { "kind": "team", "name": { "es": "Patriots", "en": "Patriots" }, "short": "PATRIOTS", "wiki": "New_England_Patriots", "colors": ["#002244", "#c60c30"] },
   "chargers":    { "kind": "team", "name": { "es": "Chargers", "en": "Chargers" }, "short": "CHARGERS", "wiki": "Los_Angeles_Chargers", "colors": ["#0080c6", "#ffc20e"] },
   "panthers":    { "kind": "team", "name": { "es": "Panthers", "en": "Panthers" }, "short": "PANTHERS", "wiki": "Carolina_Panthers", "colors": ["#0085ca", "#101820"] },
-  "buccaneers":  { "kind": "team", "name": { "es": "Buccaneers", "en": "Buccaneers" }, "short": "BUCS", "wiki": "Tampa_Bay_Buccaneers", "colors": ["#d50a0a", "#34302b"] },
+  "buccaneers":  { "kind": "team", "name": { "es": "Buccaneers", "en": "Buccaneers" }, "short": "BUCCANEERS", "wiki": "Tampa_Bay_Buccaneers", "colors": ["#d50a0a", "#34302b"] },
   "steelers": { "kind": "team", "name": { "es": "Steelers", "en": "Steelers" }, "short": "STEELERS", "wiki": "Pittsburgh_Steelers", "colors": ["#101820", "#ffb612"] },
   "bengals": { "kind": "team", "name": { "es": "Bengals", "en": "Bengals" }, "short": "BENGALS", "wiki": "Cincinnati_Bengals", "colors": ["#fb4f14", "#000000"] },
   "colts": { "kind": "team", "name": { "es": "Colts", "en": "Colts" }, "short": "COLTS", "wiki": "Indianapolis_Colts", "colors": ["#002c5f", "#a2aaad"] },
